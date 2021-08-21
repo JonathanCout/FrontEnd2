@@ -15,7 +15,7 @@ const themes = [
             },
             {
                 key:"--secondary",
-                value:"rgb(1, 100, 146))"
+                value:"rgb(1, 100, 146)"
             },
             {
                 key:"--accent",
