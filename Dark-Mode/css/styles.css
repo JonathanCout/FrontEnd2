@@ -27,12 +27,13 @@ body {
   align-items: center;
   margin-top: 2rem;
   margin-left: 2rem;
-  gap: 2rem;
   color: var(--body);
   transition: 0s;
+  gap: 2.4rem;
 }
 
 #setTheme p {
+  margin-right: 1rem;
   transition: 50ms ease-in-out;
   font-weight: bold;
 }
