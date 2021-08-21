@@ -80,7 +80,7 @@ const alterTheme = () => {
     } 
     theme = "main"
     document.querySelector('#darkText').innerHTML = 'Habilitar o modo escuro'
-    textGap.style.setProperty("gap","2rem")
+    textGap.style.setProperty("gap","1.8rem")
     icon.style.setProperty("transform","translateX(0)")
 }
 
