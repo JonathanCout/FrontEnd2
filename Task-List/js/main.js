@@ -2,6 +2,7 @@ const list = document.querySelector('.lista')
 const form = document.querySelector('.form')
 const formButton = document.querySelector('.form-botao')
 const task = document.querySelector('.tarefa')
+const deleteButton = document.querySelector('.delete-task')
 let taskCounter = 0
 const tasks = []
 
@@ -44,8 +45,13 @@ const showText = () => {
         {
             key: "type",
             value: "button"
+        },
+        {
+            key: "class",
+            value: "delete-task"
         }
     ]
+
     // Inserção dos dados nas "li"
     newLi.classList.add('tarefa')
     newLi.id = `tarefa${taskCounter + 2}`
@@ -63,7 +69,6 @@ const showText = () => {
     // Criando nós entre "li" e seus filhos
     newLi.appendChild(input)
     newLi.appendChild(label)
-    button.classList.add('delete-task')
     newLi.appendChild(button)
 
     // Se não existir tarefas, ele oferece o valor inicial
@@ -74,6 +79,10 @@ const showText = () => {
     }
 
     taskCounter++
+
+    button.addEventListener('click', () => {
+        newLi.parentNode.removeChild(newLi)
+    })
 }
 
 // Inserção de dados
@@ -83,16 +92,10 @@ const listSetter = () => {
         alert("Favor inserir alguma tarefa")
         return
     }
-    tasks.push(newTask)  
+    tasks.push(newTask)
     showText()
     document.querySelector('.form-input').value = ''
 }
-
-// Deletar tarefas 
-const deleteTask = () => {
-    task.parentNode.removeChild(task)
-}
-
 
 // Impedir que a página seja recarregada ao apertar o botão 'nova tarefa'
 const prevent = (event) => {
@@ -103,7 +106,9 @@ form.addEventListener('submit', prevent)
 // Botão de inserção
 formButton.addEventListener('click', listSetter)
 
-// Botão de deletar
-const deleteButton = document.querySelectorAll('.delete-task')
-deleteButton.forEach(btn => btn.addEventListener('click', deleteTask))
+// Deletar tarefas 
+const deleteTask = () => {
+    task.parentNode.removeChild(task)
+}
+deleteButton.addEventListener('click', deleteTask)
 
