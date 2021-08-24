@@ -119,6 +119,7 @@ const showText = () => {
     delButton.addEventListener('click', () => {
         const deleteLabel = (delButton.previousElementSibling).previousElementSibling;
         tasks.splice(tasks.indexOf(tasks.find(e => e === deleteLabel.textContent)), 1)
+        tar.splice(tar.indexOf(tar.find(e => e === deleteLabel.textContent)), 1)
         localStorage.setItem('tarefas', JSON.stringify(tasks))
         newLi.parentNode.removeChild(newLi)
         taskCounter--
@@ -138,7 +139,7 @@ const showText = () => {
     edit.addEventListener('keyup', (event) => {
         if (event.key === "Enter") {
             let editedTask = edit.value
-            if (editedTask.length == 0) {
+            if (editedTask.trim().length == 0) {
                 alert("Favor inserir alguma tarefa a ser editada")
                 return
             }
@@ -174,14 +175,13 @@ const pushEditedTask = (task, label, elem) => {
 // Inserção de dados
 const listSetter = () => {
     let newTask = document.querySelector('.form-input').value
-    if (newTask.length == 0) {
+    if (newTask.trim().length == 0) {
         alert("Favor inserir alguma tarefa")
         return
     }
     const taskFound = tasks.find(t => t === newTask)
     if (!taskFound) {
         pushNewTask(newTask)
-        return
     } else {
         const conf = confirm("Essa tarefa já existe, deseja mesmo criar uma cópia?")
         if (conf) {
@@ -208,6 +208,5 @@ window.onload = setTimeout(() => {
             })
             return
         }
-        return
     }
 }, 150)
