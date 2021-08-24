@@ -1,12 +1,8 @@
 const list = document.querySelector('.lista')
 const form = document.querySelector('.form')
 const formButton = document.querySelector('.form-botao')
-const task = document.querySelector('.tarefa')
-const deleteButton = document.querySelector('.delete-task')
 let taskCounter = 0
 const tasks = []
-
-
 
 // Capturação da tarefa e criação de "li"
 const showText = () => {
@@ -14,8 +10,9 @@ const showText = () => {
     // Atributos da nova "li"
     const input = document.createElement('input')
     const label = document.createElement('label')
-    const button = document.createElement('button')
-
+    const editbutton = document.createElement('button')
+    const delbutton = document.createElement('button')
+   
     // Modelos dos atributos
     const inputModel = [
         {
@@ -24,24 +21,34 @@ const showText = () => {
         },
         {
             key: "name",
-            value: `task${taskCounter + 2}`
+            value: `task${taskCounter + 1}`
         },
         {
             key: "id",
-            value: `task${taskCounter + 2}`
+            value: `task${taskCounter + 1}`
         }
     ]
     const labelModel = [
         {
             key: "for",
-            value: `task${taskCounter + 2}`
+            value: `task${taskCounter + 1}`
         },
         {
             key: "id",
-            value: `label${taskCounter + 2}`
+            value: `label${taskCounter + 1}`
         }
     ]
-    const buttonModel = [
+    const editButtonModel = [
+        {
+            key: "type",
+            value: "button"
+        },
+        {
+            key: "class",
+            value: "edit-task-btn"
+        }
+    ]
+    const delButtonModel = [
         {
             key: "type",
             value: "button"
@@ -51,10 +58,28 @@ const showText = () => {
             value: "delete-task"
         }
     ]
+    const editInputModel = [
+        {
+            key: "type",
+            value: "text"
+        },
+        {
+            key: "name",
+            value: `edit-task${taskCounter + 1}`
+        },
+        {
+            key: "id",
+            value: `edit-task${taskCounter + 1}`
+        },
+        {
+            key:"class",
+            value:"edit-task-input"
+        }
+    ]
 
     // Inserção dos dados nas "li"
     newLi.classList.add('tarefa')
-    newLi.id = `tarefa${taskCounter + 2}`
+    newLi.id = `tarefa${taskCounter + 1}`
     list.appendChild(newLi)
 
     for (let i of inputModel) {
@@ -63,25 +88,56 @@ const showText = () => {
     for (let l of labelModel) {
         label.setAttribute(l.key, l.value)
     }
-    for (let b of buttonModel) {
-        button.setAttribute(b.key, b.value)
+    for (let e of editButtonModel) {
+        editbutton.setAttribute(e.key, e.value)
+    }
+    for (let e of delButtonModel) {
+        delbutton.setAttribute(e.key, e.value)
     }
     // Criando nós entre "li" e seus filhos
     newLi.appendChild(input)
     newLi.appendChild(label)
-    newLi.appendChild(button)
+    newLi.appendChild(editbutton)
+    newLi.appendChild(delbutton)
 
-    // Se não existir tarefas, ele oferece o valor inicial
-    if (taskCounter < 0) {
-        label.innerHTML = tasks[0]
-    } else {
-        label.innerHTML = tasks[taskCounter]
-    }
+    label.innerHTML = tasks[taskCounter]
 
     taskCounter++
 
-    button.addEventListener('click', () => {
+    // Evento deletar para os botões criados
+    delbutton.addEventListener('click', () => {
+        const deleteLabel = (delbutton.previousElementSibling).previousElementSibling;
+        console.log(tasks)
+        console.log(deleteLabel)
+        const index = tasks.indexOf(tasks.find(e => e === deleteLabel.textContent))
+        console.log(index)
+        tasks.splice(index ,1)
+        console.log(tasks)
         newLi.parentNode.removeChild(newLi)
+        taskCounter--
+    })
+
+    // Botão de editar tarefas
+    const edit = document.createElement('input')
+    editbutton.addEventListener('click', () => {
+        for (let e of editInputModel) {
+            edit.setAttribute(e.key, e.value)
+        }
+        let inputEdit = editbutton.previousElementSibling;
+        inputEdit.after(edit)
+    })
+
+    // Capturar valor do input, inserir no array e deletar o elemento input
+    edit.addEventListener('keyup',(event) => {
+        if(event.key === "Enter")
+        {
+            let editedTask = edit.value
+            let editedLabel = edit.previousElementSibling
+            tasks[tasks.indexOf(tasks.find(e => e === editedLabel.textContent))] = editedTask
+            editedLabel.innerHTML = editedTask
+            edit.parentNode.removeChild(edit)
+            return
+        }
     })
 }
 
@@ -98,17 +154,9 @@ const listSetter = () => {
 }
 
 // Impedir que a página seja recarregada ao apertar o botão 'nova tarefa'
-const prevent = (event) => {
+form.addEventListener('submit', (event) => {
     event.preventDefault()
-}
-form.addEventListener('submit', prevent)
+    listSetter()
+})
 
-// Botão de inserção
-formButton.addEventListener('click', listSetter)
-
-// Deletar tarefas 
-const deleteTask = () => {
-    task.parentNode.removeChild(task)
-}
-deleteButton.addEventListener('click', deleteTask)
 
