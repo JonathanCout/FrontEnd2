@@ -130,7 +130,7 @@ body {
   padding: 1rem 3rem;
 }
 
-.tarefa input[type="checkbox"]:checked + label {
+.task-checker:checked + label {
   text-decoration: line-through;
 }
 
