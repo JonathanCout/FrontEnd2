@@ -107,12 +107,7 @@ const showText = () => {
     // Evento deletar para os botões criados
     delbutton.addEventListener('click', () => {
         const deleteLabel = (delbutton.previousElementSibling).previousElementSibling;
-        console.log(tasks)
-        console.log(deleteLabel)
-        const index = tasks.indexOf(tasks.find(e => e === deleteLabel.textContent))
-        console.log(index)
-        tasks.splice(index ,1)
-        console.log(tasks)
+        tasks.splice(tasks.indexOf(tasks.find(e => e === deleteLabel.textContent)),1)
         newLi.parentNode.removeChild(newLi)
         taskCounter--
     })
@@ -161,6 +156,13 @@ const listSetter = () => {
 form.addEventListener('submit', (event) => {
     event.preventDefault()
     listSetter()
+})
+
+
+// LocalStorage ainda é confuso, estudar mais sobre
+localStorage.setItem('tarefas',JSON.stringify(tasks))
+window.onload = setTimeout(()=> {
+    console.log(JSON.parse(localStorage.getItem('tarefas')))
 })
 
 
