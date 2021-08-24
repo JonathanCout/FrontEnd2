@@ -3,6 +3,11 @@ const form = document.querySelector('.form')
 const formButton = document.querySelector('.form-botao')
 let taskCounter = 0
 const tasks = []
+
+// Gambiarra que fez dar certo
+if (localStorage.length === 0) {
+    localStorage.setItem('tarefas', JSON.stringify(tasks))
+}
 const tar = JSON.parse(localStorage.getItem('tarefas'))
 
 // Capturação da tarefa e criação de "li"
@@ -13,7 +18,7 @@ const showText = () => {
     const label = document.createElement('label')
     const editbutton = document.createElement('button')
     const delbutton = document.createElement('button')
-   
+
     // Modelos dos atributos
     const inputModel = [
         {
@@ -73,8 +78,8 @@ const showText = () => {
             value: `edit-task${taskCounter + 1}`
         },
         {
-            key:"class",
-            value:"edit-task-input"
+            key: "class",
+            value: "edit-task-input"
         }
     ]
 
@@ -100,13 +105,8 @@ const showText = () => {
     newLi.appendChild(label)
     newLi.appendChild(editbutton)
     newLi.appendChild(delbutton)
-    
-    
-    console.log(taskCounter)
-    console.log(tasks)
-    console.log(tar)
 
-    if(!tar) {
+    if (tar.length === 0) {
         label.innerHTML = tasks[taskCounter]
     } else {
         label.innerHTML = tar[taskCounter]
@@ -117,13 +117,13 @@ const showText = () => {
     // Evento deletar para os botões criados
     delbutton.addEventListener('click', () => {
         const deleteLabel = (delbutton.previousElementSibling).previousElementSibling;
-        tasks.splice(tasks.indexOf(tasks.find(e => e === deleteLabel.textContent)),1)
-        localStorage.setItem('tarefas',JSON.stringify(tasks))
+        tasks.splice(tasks.indexOf(tasks.find(e => e === deleteLabel.textContent)), 1)
+        localStorage.setItem('tarefas', JSON.stringify(tasks))
         newLi.parentNode.removeChild(newLi)
         taskCounter--
     })
 
-    // Botão de editar tarefas
+    // Botão de editar tarefas e seu evento
     const edit = document.createElement('input')
     editbutton.addEventListener('click', () => {
         for (let e of editInputModel) {
@@ -134,17 +134,16 @@ const showText = () => {
     })
 
     // Capturar valor do input, inserir no array e deletar o elemento input
-    edit.addEventListener('keyup',(event) => {
-        if(event.key === "Enter")
-        {   
+    edit.addEventListener('keyup', (event) => {
+        if (event.key === "Enter") {
             let editedTask = edit.value
-            if (editedTask.length ==0) {
+            if (editedTask.length == 0) {
                 alert("Favor inserir alguma tarefa a ser editada")
                 return
             }
             let editedLabel = edit.previousElementSibling
             tasks[tasks.indexOf(tasks.find(e => e === editedLabel.textContent))] = editedTask
-            localStorage.setItem('tarefas',JSON.stringify(tasks))
+            localStorage.setItem('tarefas', JSON.stringify(tasks))
             editedLabel.innerHTML = editedTask
             edit.parentNode.removeChild(edit)
             return
@@ -160,8 +159,7 @@ const listSetter = () => {
         return
     }
     tasks.push(newTask)
-    localStorage.setItem('tarefas',JSON.stringify(tasks))
-    tar.push(newTask)
+    localStorage.setItem('tarefas', JSON.stringify(tasks))
     showText()
     document.querySelector('.form-input').value = ''
 }
@@ -172,24 +170,17 @@ form.addEventListener('submit', (event) => {
     listSetter()
 })
 
-
-
 window.onload = setTimeout(() => {
     if (tar) {
-        if (tar.length > 0 ) {
+        if (tar.length > 0) {
             taskCounter = 0
             console.log(tar)
             tar.forEach(t => {
                 showText()
                 tasks.push(t)
-            }) 
+            })
             return
-        } 
+        }
         return
     }
-
-})
-
-
-
-
+}, 150)
