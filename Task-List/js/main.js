@@ -99,8 +99,17 @@ const showText = () => {
     newLi.appendChild(label)
     newLi.appendChild(editbutton)
     newLi.appendChild(delbutton)
+    
+    
+    console.log(taskCounter)
+    console.log(tasks)
+    console.log(tar)
 
-    label.innerHTML = tasks[taskCounter]
+    if(tar.length < taskCounter ) {
+        label.innerHTML = tasks[taskCounter]
+    } else {
+        label.innerHTML = tar[taskCounter]
+    }
 
     taskCounter++
 
@@ -108,6 +117,7 @@ const showText = () => {
     delbutton.addEventListener('click', () => {
         const deleteLabel = (delbutton.previousElementSibling).previousElementSibling;
         tasks.splice(tasks.indexOf(tasks.find(e => e === deleteLabel.textContent)),1)
+        localStorage.setItem('tarefas',JSON.stringify(tasks))
         newLi.parentNode.removeChild(newLi)
         taskCounter--
     })
@@ -133,6 +143,7 @@ const showText = () => {
             }
             let editedLabel = edit.previousElementSibling
             tasks[tasks.indexOf(tasks.find(e => e === editedLabel.textContent))] = editedTask
+            localStorage.setItem('tarefas',JSON.stringify(tasks))
             editedLabel.innerHTML = editedTask
             edit.parentNode.removeChild(edit)
             return
@@ -148,6 +159,8 @@ const listSetter = () => {
         return
     }
     tasks.push(newTask)
+    localStorage.setItem('tarefas',JSON.stringify(tasks))
+    tar.push(newTask)
     showText()
     document.querySelector('.form-input').value = ''
 }
@@ -158,11 +171,23 @@ form.addEventListener('submit', (event) => {
     listSetter()
 })
 
+const tar = JSON.parse(localStorage.getItem('tarefas'))
+window.onload = setTimeout(() => {
+    if (tar) {
+        if (tar.length > 0 ) {
+            taskCounter = 0
+            console.log(tar)
+            tar.forEach(t => {
+                showText()
+                tasks.push(t)
+            }) 
+            return
+        } 
+        return
+    }
 
-// LocalStorage ainda é confuso, estudar mais sobre
-localStorage.setItem('tarefas',JSON.stringify(tasks))
-window.onload = setTimeout(()=> {
-    console.log(JSON.parse(localStorage.getItem('tarefas')))
 })
+
+
 
 
