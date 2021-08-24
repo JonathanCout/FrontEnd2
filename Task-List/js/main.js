@@ -39,6 +39,10 @@ const showText = () => {
         {
             key: "id",
             value: `task${taskCounter + 1}`
+        },
+        {
+            key: "class",
+            value: "task-checker"
         }
     ]
     const labelModel = [
@@ -157,6 +161,7 @@ const showText = () => {
             }
         }
     })
+
 }
 
 const pushNewTask = (elem) => {
@@ -179,7 +184,7 @@ const listSetter = () => {
         alert("Favor inserir alguma tarefa")
         return
     }
-    const taskFound = tasks.find(t => t === newTask)
+    const taskFound = tasks.find(t => t === newTask.trim())
     if (!taskFound) {
         pushNewTask(newTask)
     } else {
@@ -210,3 +215,5 @@ window.onload = setTimeout(() => {
         }
     }
 }, 150)
+
+
