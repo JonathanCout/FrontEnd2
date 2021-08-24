@@ -10,14 +10,21 @@ if (localStorage.length === 0) {
 }
 const tar = JSON.parse(localStorage.getItem('tarefas'))
 
+// Funcão para setar atributos
+const setValues = (model, element) => {
+    for (let m of model) {
+        element.setAttribute(m.key, m.value)
+    }
+}
+
 // Capturação da tarefa e criação de "li"
 const showText = () => {
     const newLi = document.createElement("li")
     // Atributos da nova "li"
     const input = document.createElement('input')
     const label = document.createElement('label')
-    const editbutton = document.createElement('button')
-    const delbutton = document.createElement('button')
+    const editButton = document.createElement('button')
+    const delButton = document.createElement('button')
 
     // Modelos dos atributos
     const inputModel = [
@@ -88,25 +95,19 @@ const showText = () => {
     newLi.id = `tarefa${taskCounter + 1}`
     list.appendChild(newLi)
 
-    for (let i of inputModel) {
-        input.setAttribute(i.key, i.value)
-    }
-    for (let l of labelModel) {
-        label.setAttribute(l.key, l.value)
-    }
-    for (let e of editButtonModel) {
-        editbutton.setAttribute(e.key, e.value)
-    }
-    for (let e of delButtonModel) {
-        delbutton.setAttribute(e.key, e.value)
-    }
+    // Inserção dos atributos nos elementos
+    setValues(inputModel, input)
+    setValues(labelModel, label)
+    setValues(editButtonModel, editButton)
+    setValues(delButtonModel, delButton)
+
     // Criando nós entre "li" e seus filhos
     newLi.appendChild(input)
     newLi.appendChild(label)
-    newLi.appendChild(editbutton)
-    newLi.appendChild(delbutton)
+    newLi.appendChild(editButton)
+    newLi.appendChild(delButton)
 
-    if (tar.length === 0) {
+    if (tar.length < tasks.length) {
         label.innerHTML = tasks[taskCounter]
     } else {
         label.innerHTML = tar[taskCounter]
@@ -115,8 +116,8 @@ const showText = () => {
     taskCounter++
 
     // Evento deletar para os botões criados
-    delbutton.addEventListener('click', () => {
-        const deleteLabel = (delbutton.previousElementSibling).previousElementSibling;
+    delButton.addEventListener('click', () => {
+        const deleteLabel = (delButton.previousElementSibling).previousElementSibling;
         tasks.splice(tasks.indexOf(tasks.find(e => e === deleteLabel.textContent)), 1)
         localStorage.setItem('tarefas', JSON.stringify(tasks))
         newLi.parentNode.removeChild(newLi)
@@ -125,11 +126,11 @@ const showText = () => {
 
     // Botão de editar tarefas e seu evento
     const edit = document.createElement('input')
-    editbutton.addEventListener('click', () => {
+    editButton.addEventListener('click', () => {
         for (let e of editInputModel) {
             edit.setAttribute(e.key, e.value)
         }
-        let inputEdit = editbutton.previousElementSibling;
+        let inputEdit = editButton.previousElementSibling;
         inputEdit.after(edit)
     })
 
@@ -142,15 +143,34 @@ const showText = () => {
                 return
             }
             let editedLabel = edit.previousElementSibling
-            tasks[tasks.indexOf(tasks.find(e => e === editedLabel.textContent))] = editedTask
-            localStorage.setItem('tarefas', JSON.stringify(tasks))
-            editedLabel.innerHTML = editedTask
-            edit.parentNode.removeChild(edit)
-            return
+            const taskEditedFound = tasks.find(t => t === editedTask)
+            if (!taskEditedFound) {
+                pushEditedTask(editedTask, editedLabel, edit)
+                return
+            } else {
+                const conf = confirm("Essa tarefa já existe, deseja mesmo criar uma cópia?")
+                if (conf) {
+                    pushEditedTask(editedTask, editedLabel, edit)
+                    return
+                }
+            }
         }
     })
 }
 
+const pushNewTask = (elem) => {
+    tasks.push(elem)
+    localStorage.setItem('tarefas', JSON.stringify(tasks))
+    showText()
+    document.querySelector('.form-input').value = ''
+}
+
+const pushEditedTask = (task, label, elem) => {
+    tasks[tasks.indexOf(tasks.find(e => e === label.textContent))] = task
+    localStorage.setItem('tarefas', JSON.stringify(tasks))
+    label.innerHTML = task
+    elem.parentNode.removeChild(elem)
+}
 // Inserção de dados
 const listSetter = () => {
     let newTask = document.querySelector('.form-input').value
@@ -158,10 +178,17 @@ const listSetter = () => {
         alert("Favor inserir alguma tarefa")
         return
     }
-    tasks.push(newTask)
-    localStorage.setItem('tarefas', JSON.stringify(tasks))
-    showText()
-    document.querySelector('.form-input').value = ''
+    const taskFound = tasks.find(t => t === newTask)
+    if (!taskFound) {
+        pushNewTask(newTask)
+        return
+    } else {
+        const conf = confirm("Essa tarefa já existe, deseja mesmo criar uma cópia?")
+        if (conf) {
+            pushNewTask(newTask)
+            return
+        }
+    }
 }
 
 // Impedir que a página seja recarregada ao apertar o botão 'nova tarefa'
