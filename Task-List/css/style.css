@@ -133,3 +133,11 @@ body {
 .tarefa input[type="checkbox"]:checked + label {
   text-decoration: line-through;
 }
+
+.edit-task-btn{
+  background-color: #f71780;
+}
+
+.delete-task {
+  background-color: #46494C;
+}
