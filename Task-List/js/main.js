@@ -3,6 +3,7 @@ const form = document.querySelector('.form')
 const formButton = document.querySelector('.form-botao')
 let taskCounter = 0
 const tasks = []
+const tar = JSON.parse(localStorage.getItem('tarefas'))
 
 // Capturação da tarefa e criação de "li"
 const showText = () => {
@@ -105,7 +106,7 @@ const showText = () => {
     console.log(tasks)
     console.log(tar)
 
-    if(tar.length < taskCounter ) {
+    if(!tar) {
         label.innerHTML = tasks[taskCounter]
     } else {
         label.innerHTML = tar[taskCounter]
@@ -171,7 +172,8 @@ form.addEventListener('submit', (event) => {
     listSetter()
 })
 
-const tar = JSON.parse(localStorage.getItem('tarefas'))
+
+
 window.onload = setTimeout(() => {
     if (tar) {
         if (tar.length > 0 ) {
