@@ -130,8 +130,12 @@ const showText = () => {
     // Capturar valor do input, inserir no array e deletar o elemento input
     edit.addEventListener('keyup',(event) => {
         if(event.key === "Enter")
-        {
+        {   
             let editedTask = edit.value
+            if (editedTask.length ==0) {
+                alert("Favor inserir alguma tarefa a ser editada")
+                return
+            }
             let editedLabel = edit.previousElementSibling
             tasks[tasks.indexOf(tasks.find(e => e === editedLabel.textContent))] = editedTask
             editedLabel.innerHTML = editedTask
