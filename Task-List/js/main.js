@@ -17,6 +17,24 @@ const setValues = (model, element) => {
     }
 }
 
+const pushNewTask = (elem) => {
+    tasks.push({
+        id: `tarefa${taskCounter + 1}`,
+        description: elem,
+        done: false
+    })
+    localStorage.setItem('tarefas', JSON.stringify(tasks))
+    showText()
+    document.querySelector('.form-input').value = ''
+}
+
+const pushEditedTask = (task, label, elem) => {
+    tasks.find(t => t.description === label.textContent).description = task
+    localStorage.setItem('tarefas', JSON.stringify(tasks))
+    label.innerHTML = task
+    elem.parentNode.removeChild(elem)
+}
+
 // Capturação da tarefa e criação de "li"
 const showText = () => {
     const newLi = document.createElement("li")
@@ -111,19 +129,35 @@ const showText = () => {
     newLi.appendChild(editButton)
     newLi.appendChild(delButton)
 
-    if (tar.length < tasks.length) {
-        label.innerHTML = tasks[taskCounter]
-    } else {
-        label.innerHTML = tar[taskCounter]
-    }
-
+    // Inserção do texto no DOM
+    label.innerHTML = tasks[taskCounter].description
     taskCounter++
+
+    // Evento para mudar o valor "done" de cada tarefa
+    [input,label].forEach(t => t.addEventListener('click', () => {
+        const findinput = tasks.find(object => object.id === input.parentElement.id)
+        if (input.checked) {
+            findinput.done = true
+            localStorage.setItem('tarefas', JSON.stringify(tasks))
+            return
+        }
+        findinput.done = false
+        localStorage.setItem('tarefas', JSON.stringify(tasks))
+    }))
+
+    // Verificação se o valor "done" da tarefa é "true" e corresponder ao checkbox o valor pertinente
+    const CheckifChecked = tasks.find(object => object.id === input.parentElement.id)
+    if (CheckifChecked.done) {
+        input.checked = true
+    } else {
+        input.checked = false
+    }
 
     // Evento deletar para os botões criados
     delButton.addEventListener('click', () => {
         const deleteLabel = (delButton.previousElementSibling).previousElementSibling;
-        tasks.splice(tasks.indexOf(tasks.find(e => e === deleteLabel.textContent)), 1)
-        tar.splice(tar.indexOf(tar.find(e => e === deleteLabel.textContent)), 1)
+        tasks.splice(tasks.indexOf(tasks.find(e => e.description === deleteLabel.textContent)), 1)
+        tar.splice(tar.indexOf(tar.find(e => e.description === deleteLabel.textContent)), 1)
         localStorage.setItem('tarefas', JSON.stringify(tasks))
         newLi.parentNode.removeChild(newLi)
         taskCounter--
@@ -148,7 +182,7 @@ const showText = () => {
                 return
             }
             let editedLabel = edit.previousElementSibling
-            const taskEditedFound = tasks.find(t => t === editedTask)
+            const taskEditedFound = tasks.find(t => t.description === editedTask)
             if (!taskEditedFound) {
                 pushEditedTask(editedTask, editedLabel, edit)
                 return
@@ -161,22 +195,8 @@ const showText = () => {
             }
         }
     })
-
 }
 
-const pushNewTask = (elem) => {
-    tasks.push(elem)
-    localStorage.setItem('tarefas', JSON.stringify(tasks))
-    showText()
-    document.querySelector('.form-input').value = ''
-}
-
-const pushEditedTask = (task, label, elem) => {
-    tasks[tasks.indexOf(tasks.find(e => e === label.textContent))] = task
-    localStorage.setItem('tarefas', JSON.stringify(tasks))
-    label.innerHTML = task
-    elem.parentNode.removeChild(elem)
-}
 // Inserção de dados
 const listSetter = () => {
     let newTask = document.querySelector('.form-input').value
@@ -184,7 +204,7 @@ const listSetter = () => {
         alert("Favor inserir alguma tarefa")
         return
     }
-    const taskFound = tasks.find(t => t === newTask.trim())
+    const taskFound = tasks.find(t => t.description === newTask.trim())
     if (!taskFound) {
         pushNewTask(newTask)
     } else {
@@ -203,16 +223,17 @@ form.addEventListener('submit', (event) => {
 })
 
 window.onload = setTimeout(() => {
-    if (tar) {
-        if (tar.length > 0) {
-            taskCounter = 0
-            console.log(tar)
-            tar.forEach(t => {
-                showText()
-                tasks.push(t)
+    if (tar && tar.length > 0) {
+        taskCounter = 0
+        console.log(tar)
+        tar.forEach(t => {
+            tasks.push({
+                id: t.id,
+                description: t.description,
+                done: t.done
             })
-            return
-        }
+            showText() 
+        })
     }
 }, 150)
 
