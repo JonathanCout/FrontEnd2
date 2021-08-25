@@ -29,7 +29,7 @@ const pushNewTask = (elem) => {
 }
 
 const pushEditedTask = (task, label, elem) => {
-    tasks.find(t => t.description === label.textContent).description = task
+    tasks.find(t => t.description === label.textContent).description = task.trim()
     localStorage.setItem('tarefas', JSON.stringify(tasks))
     label.innerHTML = task
     elem.parentNode.removeChild(elem)
@@ -182,7 +182,7 @@ const showText = () => {
                 return
             }
             let editedLabel = edit.previousElementSibling
-            const taskEditedFound = tasks.find(t => t.description === editedTask)
+            const taskEditedFound = tasks.find(t => t.description === editedTask.trim())
             if (!taskEditedFound) {
                 pushEditedTask(editedTask, editedLabel, edit)
                 return
