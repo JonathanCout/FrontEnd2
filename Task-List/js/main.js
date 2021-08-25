@@ -171,6 +171,7 @@ const showText = () => {
         }
         let inputEdit = editButton.previousElementSibling;
         inputEdit.after(edit)
+        edit.focus()
     })
 
     // Capturar valor do input, inserir no array e deletar o elemento input
@@ -193,6 +194,11 @@ const showText = () => {
                     return
                 }
             }
+        }
+    })
+    edit.addEventListener('keyup', (event) => {
+        if (event.key === "Escape") {
+            edit.parentNode.removeChild(edit)
         }
     })
 }
