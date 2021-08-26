@@ -59,6 +59,10 @@ body {
   background: rgba(246, 241, 209, 0.1);
 }
 
+.done {
+  opacity: 0.5;
+}
+
 .app {
   display: flex;
   align-items: center;
@@ -140,4 +144,8 @@ body {
 
 .delete-task {
   background-color: #46494C;
+}
+
+.disabled {
+  display: none;
 }

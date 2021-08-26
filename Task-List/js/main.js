@@ -1,14 +1,63 @@
 const list = document.querySelector('.lista')
 const form = document.querySelector('.form')
 const formButton = document.querySelector('.form-botao')
-let taskCounter = 0
-const tasks = []
 
-// Gambiarra que fez dar certo
-if (localStorage.length === 0) {
+let tasks = JSON.parse(localStorage.getItem("tarefas")) || []
+
+// lógica
+
+const sendToStorage = () => {
     localStorage.setItem('tarefas', JSON.stringify(tasks))
 }
-const tar = JSON.parse(localStorage.getItem('tarefas'))
+
+if (!localStorage.getItem("tarefas")) {
+    sendToStorage()
+}
+
+const createRandomId = (length) => {
+    const validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    let randomString = ""
+    for (let i = 0; i <= length; i++) {
+        const random = Math.floor(Math.random() * (validChars.length - 1))
+        randomString += validChars[random]
+    }
+    return randomString
+}
+
+const taskMakeHandler = (description, id = null) => {
+    const findTask = tasks.find(t => t.id === id) || {
+        id: createRandomId(16),
+        done: false
+    }
+
+    if (id && findTask.id !== id) {
+        return
+    }
+
+    const newTask = {
+        ...findTask,
+        description: description.trim()
+    }
+
+    tasks.push(newTask)
+    sendToStorage()
+
+    return newTask
+}
+
+const taskDoneHandler = (id) => {
+    const task = tasks.find(t => t.id === id)
+    task.done = !task.done
+    sendToStorage()
+}
+
+const taskDeleteHandler = (id) => {
+    tasks = tasks.filter(t => t.id !== id)
+    sendToStorage()
+}
+
+
+// apresentação
 
 // Funcão para setar atributos
 const setValues = (model, element) => {
@@ -17,230 +66,192 @@ const setValues = (model, element) => {
     }
 }
 
-const pushNewTask = (elem) => {
-    tasks.push({
-        id: `tarefa${taskCounter + 1}`,
-        description: elem,
-        done: false
-    })
-    localStorage.setItem('tarefas', JSON.stringify(tasks))
-    showText()
-    document.querySelector('.form-input').value = ''
-}
-
-const pushEditedTask = (task, label, elem) => {
-    tasks.find(t => t.description === label.textContent).description = task.trim()
-    localStorage.setItem('tarefas', JSON.stringify(tasks))
-    label.innerHTML = task
-    elem.parentNode.removeChild(elem)
-}
-
 // Capturação da tarefa e criação de "li"
-const showText = () => {
+const newTaskView = id => {
+    const task = tasks.find(t => t.id === id)
+
     const newLi = document.createElement("li")
     // Atributos da nova "li"
     const input = document.createElement('input')
     const label = document.createElement('label')
+    const editInput = document.createElement('input')
     const editButton = document.createElement('button')
     const delButton = document.createElement('button')
 
     // Modelos dos atributos
-    const inputModel = [
+    const elementModels = [
         {
-            key: "type",
-            value: "checkbox"
+            element: input,
+            props: [
+                {
+                    key: "type",
+                    value: "checkbox"
+                },
+                {
+                    key: "name",
+                    value: `done-${task.id}`
+                },
+                {
+                    key: "id",
+                    value: `checkbox-${task.id}`
+                },
+                {
+                    key: "class",
+                    value: "task-checker"
+                }
+            ]
         },
+
         {
-            key: "name",
-            value: `task${taskCounter + 1}`
+            element: editInput,
+            props: [
+                {
+                    key: "type",
+                    value: "text"
+                },
+                {
+                    key: "name",
+                    value: `edit-${task.id}`
+                },
+                {
+                    key: "id",
+                    value: `edit-${task.id}`
+                },
+                {
+                    key: "class",
+                    value: "edit-task-input disabled"
+                },
+                {
+                    key: "value",
+                    value: task.description
+                }
+            ]
         },
+
         {
-            key: "id",
-            value: `task${taskCounter + 1}`
+            element: label,
+            props: [
+                {
+                    key: "for",
+                    value: `checkbox-${task.id}`
+                },
+                {
+                    key: "id",
+                    value: `label-${task.id}`
+                }
+            ]
         },
+
         {
-            key: "class",
-            value: "task-checker"
-        }
+            element: editButton,
+            props: [
+                {
+                    key: "type",
+                    value: "button"
+                },
+                {
+                    key: "class",
+                    value: "edit-task-btn"
+                }
+            ]
+        },
+
+        {
+            element: delButton,
+            props: [
+                {
+                    key: "type",
+                    value: "button"
+                },
+                {
+                    key: "class",
+                    value: "delete-task"
+                }
+            ]
+        }   
     ]
-    const labelModel = [
-        {
-            key: "for",
-            value: `task${taskCounter + 1}`
-        },
-        {
-            key: "id",
-            value: `label${taskCounter + 1}`
-        }
-    ]
-    const editButtonModel = [
-        {
-            key: "type",
-            value: "button"
-        },
-        {
-            key: "class",
-            value: "edit-task-btn"
-        }
-    ]
-    const delButtonModel = [
-        {
-            key: "type",
-            value: "button"
-        },
-        {
-            key: "class",
-            value: "delete-task"
-        }
-    ]
-    const editInputModel = [
-        {
-            key: "type",
-            value: "text"
-        },
-        {
-            key: "name",
-            value: `edit-task${taskCounter + 1}`
-        },
-        {
-            key: "id",
-            value: `edit-task${taskCounter + 1}`
-        },
-        {
-            key: "class",
-            value: "edit-task-input"
-        }
-    ]
+
+    for (let element of elementModels) {
+        setValues(element.props, element.element)
+        newLi.appendChild(element.element)
+    }
+
+    input.checked = task.done
+    if (task.done) {
+        newLi.classList.add("done")
+    }
 
     // Inserção dos dados nas "li"
     newLi.classList.add('tarefa')
-    newLi.id = `tarefa${taskCounter + 1}`
+    newLi.id = task.id
     list.appendChild(newLi)
+    label.innerHTML = task.description
 
-    // Inserção dos atributos nos elementos
-    setValues(inputModel, input)
-    setValues(labelModel, label)
-    setValues(editButtonModel, editButton)
-    setValues(delButtonModel, delButton)
-
-    // Criando nós entre "li" e seus filhos
-    newLi.appendChild(input)
-    newLi.appendChild(label)
-    newLi.appendChild(editButton)
-    newLi.appendChild(delButton)
-
-    // Inserção do texto no DOM
-    label.innerHTML = tasks[taskCounter].description
-    taskCounter++
-
-    // Evento para mudar o valor "done" de cada tarefa
-    [input,label].forEach(t => t.addEventListener('click', () => {
-        const findinput = tasks.find(object => object.id === input.parentElement.id)
-        if (input.checked) {
-            findinput.done = true
-            localStorage.setItem('tarefas', JSON.stringify(tasks))
-            return
-        }
-        findinput.done = false
-        localStorage.setItem('tarefas', JSON.stringify(tasks))
-    }))
-
-    // Verificação se o valor "done" da tarefa é "true" e corresponder ao checkbox o valor pertinente
-    const CheckifChecked = tasks.find(object => object.id === input.parentElement.id)
-    if (CheckifChecked.done) {
-        input.checked = true
-    } else {
-        input.checked = false
-    }
-
-    // Evento deletar para os botões criados
-    delButton.addEventListener('click', () => {
-        const deleteLabel = (delButton.previousElementSibling).previousElementSibling;
-        tasks.splice(tasks.indexOf(tasks.find(e => e.description === deleteLabel.textContent)), 1)
-        tar.splice(tar.indexOf(tar.find(e => e.description === deleteLabel.textContent)), 1)
-        localStorage.setItem('tarefas', JSON.stringify(tasks))
-        newLi.parentNode.removeChild(newLi)
-        taskCounter--
-    })
-
-    // Botão de editar tarefas e seu evento
-    const edit = document.createElement('input')
-    editButton.addEventListener('click', () => {
-        for (let e of editInputModel) {
-            edit.setAttribute(e.key, e.value)
-        }
-        let inputEdit = editButton.previousElementSibling;
-        inputEdit.after(edit)
-        edit.focus()
-    })
-
-    // Capturar valor do input, inserir no array e deletar o elemento input
-    edit.addEventListener('keyup', (event) => {
-        if (event.key === "Enter") {
-            let editedTask = edit.value
-            if (editedTask.trim().length == 0) {
-                alert("Favor inserir alguma tarefa a ser editada")
-                return
-            }
-            let editedLabel = edit.previousElementSibling
-            const taskEditedFound = tasks.find(t => t.description === editedTask.trim())
-            if (!taskEditedFound) {
-                pushEditedTask(editedTask, editedLabel, edit)
-                return
-            } else {
-                const conf = confirm("Essa tarefa já existe, deseja mesmo criar uma cópia?")
-                if (conf) {
-                    pushEditedTask(editedTask, editedLabel, edit)
-                    return
-                }
-            }
-        }
-    })
-    edit.addEventListener('keyup', (event) => {
-        if (event.key === "Escape") {
-            edit.parentNode.removeChild(edit)
+    input.addEventListener("change", () => taskDoneView(task.id))
+    delButton.addEventListener("click", () => taskDeleteView(task.id))
+    editButton.addEventListener("click", () => taskEditView(task.id))
+    editInput.addEventListener("blur", () => taskEditView(task.id))
+    editInput.addEventListener("keyup", (e) => {
+        if (e.key === "Escape") {
+            taskEditView(task.id, false)
         }
     })
 }
 
+function taskDoneView(id) {
+    taskDoneHandler(id)
+    const task = document.querySelector(`#${id}`)
+    task.classList.toggle("done")
+}
+
+const taskDeleteView = id => {
+    taskDeleteHandler(id)
+    document.querySelector(`#${id}`).remove()
+}
+
+const taskEditView = (id, submit = true) => {
+    const taskEdit = document.querySelector(`#edit-${id}`)
+    const labelEdit = document.querySelector(`#label-${id}`)
+    if (!taskEdit.classList.contains("disabled") && submit) {
+        taskMakeHandler(taskEdit.value, id)
+    }
+    taskEdit.classList.toggle("disabled")
+    labelEdit.classList.toggle("disabled")
+    labelEdit.textContent = taskEdit.value
+    taskEdit.focus()
+}
+
 // Inserção de dados
-const listSetter = () => {
-    let newTask = document.querySelector('.form-input').value
-    if (newTask.trim().length == 0) {
+const createNewTask = () => {
+    const description = document.querySelector('.form-input').value
+    if (description.trim().length == 0) {
         alert("Favor inserir alguma tarefa")
         return
     }
-    const taskFound = tasks.find(t => t.description === newTask.trim())
-    if (!taskFound) {
-        pushNewTask(newTask)
-    } else {
+    const taskFound = tasks.find(t => t.description === description.trim())
+    
+    if (taskFound) {
         const conf = confirm("Essa tarefa já existe, deseja mesmo criar uma cópia?")
-        if (conf) {
-            pushNewTask(newTask)
+        if (!conf) {
             return
         }
     }
+
+    const newTask = taskMakeHandler(description)
+    newTaskView(newTask.id)
 }
 
 // Impedir que a página seja recarregada ao apertar o botão 'nova tarefa'
 form.addEventListener('submit', (event) => {
     event.preventDefault()
-    listSetter()
+    createNewTask()
+    document.querySelector("#new-task-input").value = ""
 })
 
-window.onload = setTimeout(() => {
-    if (tar && tar.length > 0) {
-        taskCounter = 0
-        console.log(tar)
-        tar.forEach(t => {
-            tasks.push({
-                id: t.id,
-                description: t.description,
-                done: t.done
-            })
-            showText() 
+window.onload = () => {
+    if (tasks && tasks.length > 0) {
+        tasks.forEach(t => {
+            newTaskView(t.id) 
         })
     }
-}, 150)
-
-
+}
