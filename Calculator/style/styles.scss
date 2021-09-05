@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .calculator {
+        
+        .display {
+                  
+            #currentValue {
+                width: 100%;
+                text-align: right;
+            } 
+        }
+    
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+    
+            button {
+                padding: clamp(.5rem, 2vw,2rem) clamp(1rem, 6vw,7rem)
+            }
+            #clear {
+                grid-column: 1/3;
+            }
+    
+            #equals {
+                grid-column: 2/5;
+            }
+        }
+    }
+   
+}
+
+.active {
+    background-color: blue;
+}
