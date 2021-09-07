@@ -1,9 +1,8 @@
 const list = document.querySelector('.lista')
 const form = document.querySelector('.form')
-const formButton = document.querySelector('.form-botao')
 
 let tasks = JSON.parse(localStorage.getItem("tarefas")) || []
-
+let validator = true
 // lógica
 
 const sendToStorage = () => {
@@ -24,7 +23,29 @@ const createRandomId = (length) => {
     return randomString
 }
 
+const validateTasks = (desc) => {
+    if (desc.trim().length == 0) {
+        alert("Favor inserir alguma tarefa")
+        validator = false
+        return
+    }
+    const taskFound = tasks.find(t => t.description === desc.trim())
+    
+    if (taskFound) {
+        const conf = confirm("Essa tarefa já existe, deseja mesmo criar uma cópia?")
+        if (!conf) {
+            validator = false
+            return
+        }
+    }
+    validator = true
+}
+
 const taskMakeHandler = (description, id = null) => {
+    validateTasks(description)
+    if (!validator) {
+        return
+    }
     const findTask = tasks.find(t => t.id === id) || {
         id: createRandomId(16),
         done: false
@@ -190,12 +211,16 @@ const newTaskView = id => {
     input.addEventListener("change", () => taskDoneView(task.id))
     delButton.addEventListener("click", () => taskDeleteView(task.id))
     editButton.addEventListener("click", () => taskEditView(task.id))
-    editInput.addEventListener("blur", () => taskEditView(task.id))
     editInput.addEventListener("keyup", (e) => {
         if (e.key === "Escape") {
             taskEditView(task.id, false)
         }
-    })
+        if (e.key === "Enter" && !validator) {
+            taskEditView(task.id)
+        } else if (e.key === "Enter" && validator) {
+            taskEditView(task.id, false)
+        }
+    }) 
 }
 
 function taskDoneView(id) {
@@ -209,6 +234,8 @@ const taskDeleteView = id => {
     document.querySelector(`#${id}`).remove()
 }
 
+
+
 const taskEditView = (id, submit = true) => {
     const taskEdit = document.querySelector(`#edit-${id}`)
     const labelEdit = document.querySelector(`#label-${id}`)
@@ -217,26 +244,14 @@ const taskEditView = (id, submit = true) => {
     }
     taskEdit.classList.toggle("disabled")
     labelEdit.classList.toggle("disabled")
-    labelEdit.textContent = taskEdit.value
+    // labelEdit.textContent = taskEdit.value
     taskEdit.focus()
 }
+
 
 // Inserção de dados
 const createNewTask = () => {
     const description = document.querySelector('.form-input').value
-    if (description.trim().length == 0) {
-        alert("Favor inserir alguma tarefa")
-        return
-    }
-    const taskFound = tasks.find(t => t.description === description.trim())
-    
-    if (taskFound) {
-        const conf = confirm("Essa tarefa já existe, deseja mesmo criar uma cópia?")
-        if (!conf) {
-            return
-        }
-    }
-
     const newTask = taskMakeHandler(description)
     newTaskView(newTask.id)
 }
