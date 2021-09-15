@@ -1,0 +1,293 @@
+@import url("https://fonts.googleapis.com/css2?family=Bona+Nova:wght@400;700&family=Oswald&family=Roboto:wght@400;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background-color: #f3f3f3;
+  font-family: 'Roboto', sans-serif;
+}
+
+button {
+  cursor: pointer;
+  font-family: 'Bona Nova', serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  -webkit-transition-property: -webkit-filter transform background;
+  transition-property: -webkit-filter transform background;
+  transition-property: filter transform background;
+  transition-property: filter transform background, -webkit-filter transform background;
+  -webkit-transition: 300ms ease-in-out;
+  transition: 300ms ease-in-out;
+}
+
+button:hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+  -webkit-box-shadow: 0.2rem 0.2rem 0 0 rgba(0, 0, 0, 0.329);
+          box-shadow: 0.2rem 0.2rem 0 0 rgba(0, 0, 0, 0.329);
+}
+
+button:focus {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+  -webkit-filter: brightness(1.5);
+          filter: brightness(1.5);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+button:disabled {
+  background-color: white;
+  color: black;
+}
+
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #78b9f9;
+  min-height: 10vh;
+  padding: 0 2.5rem;
+}
+
+header h1 {
+  color: #f3f3f3;
+  font-size: 2.5rem;
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: .15rem;
+}
+
+header nav #pai {
+  position: relative;
+}
+
+header nav #pai button {
+  position: relative;
+  margin-right: 2rem;
+  padding: .5rem 2rem;
+  border-radius: 30px;
+  border: none;
+}
+
+header nav #pai #info {
+  display: none;
+  position: absolute;
+  top: calc(100% + 1.5rem);
+  right: 20%;
+  width: 20rem;
+  padding: 1rem 3rem;
+  background-color: white;
+}
+
+header nav #pai #info[aria-expanded="true"] {
+  -webkit-animation: fade-in 400ms forwards;
+          animation: fade-in 400ms forwards;
+  display: block;
+}
+
+header nav #pai #info[aria-expanded="false"][data-transition="true"] {
+  -webkit-animation: fade-out 400ms forwards;
+          animation: fade-out 400ms forwards;
+  display: block;
+}
+
+header nav #pai #info::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border: 1rem solid transparent;
+  border-right-color: white;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+header nav #pai #info p {
+  margin: 1rem 0;
+}
+
+main #card-handler {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.219);
+}
+
+main #card-handler[aria-expanded="true"] {
+  -webkit-animation: fade-in 300ms forwards;
+          animation: fade-in 300ms forwards;
+  display: block;
+}
+
+main #card-handler[aria-expanded="false"][data-transition="true"] {
+  -webkit-animation: fade-out 300ms forwards;
+          animation: fade-out 300ms forwards;
+  display: block;
+}
+
+main #card-handler form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-color: #e2e6ff;
+  width: 30vw;
+  padding: 4rem 3rem;
+  border-radius: 30px;
+}
+
+main #card-handler form label {
+  font-size: 1.2rem;
+  font-family: 'Bona Nova', serif;
+  font-weight: 400;
+}
+
+main #card-handler form input {
+  width: 100%;
+  height: 1.5rem;
+  margin: .5rem 0;
+  border: none;
+}
+
+main #card-handler form p {
+  margin-bottom: 1.5rem;
+  color: red;
+  display: none;
+}
+
+main #card-handler form p[aria-expanded="true"] {
+  -webkit-animation: fade-in 300ms forwards;
+          animation: fade-in 300ms forwards;
+  display: block;
+}
+
+main #card-handler form p[aria-expanded="false"][data-transition="true"] {
+  -webkit-animation: fade-out 300ms forwards;
+          animation: fade-out 300ms forwards;
+  display: block;
+}
+
+main #card-handler form #buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+main #card-handler form #buttons button {
+  padding: .5rem 1rem;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  background-color: #6451b6;
+}
+
+main #card-handler form #buttons button:last-child {
+  background-color: white;
+  color: black;
+}
+
+#cards-grid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(15rem, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 10rem;
+  padding: 3rem;
+}
+
+#cards-grid .card {
+  background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#cards-grid .card .title {
+  padding: 1rem 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+#cards-grid .card img {
+  width: 100%;
+  padding: 0 1rem;
+}
+
+#cards-grid .card button {
+  aspect-ratio: 1/1;
+  width: 1rem;
+  margin: .5rem;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: none;
+  background-image: url("https://cdn-icons-png.flaticon.com/512/1828/1828744.png");
+}
+
+.active {
+  display: block !important;
+}
+
+@-webkit-keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+/*# sourceMappingURL=styles.css.map */

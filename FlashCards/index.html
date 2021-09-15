@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./style/styles.css">
+
+    <title>FlashCards</title>
+</head>
+<body>
+    <header>
+        <h1>Criador de TbT's</h1>
+        <nav>
+            <div id="pai">
+                <button id="create-button">Salvar um momento</button>
+                <button id="info-button">Info</button>
+                <div data-transition="false" aria-expanded="false" id="info">
+                    <p>Criado por <strong>Jonathan Quintal Coutinho</strong> </p>
+                    <p>Entre em contato comigo pelo email: <strong>jqcoutinho.eng@gmail.com</strong> </p>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div data-transition="false" aria-expanded="false" id="card-handler">
+            <form id="form">
+                <legend><label for="imageUrl">Url da imagem</label></legend>
+                <input type="url" id="imageUrl" name="image">
+
+                <legend><label for="title-input">Título</label></legend>
+                <input type="text" id="title-input" name="title">
+                <p class = "error-msg" data-transition="false" aria-expanded="false">* Este campo não pode estar vazio</p>
+
+                <legend><label for="description-input">Descrição</label></legend>
+                <input type="text" id="description-input" name="description">
+                <p class = "error-msg" data-transition="false" aria-expanded="false">* Este campo não pode estar vazio</p>
+
+                <div id="buttons">
+                    <button type="submit">Criar card</button>
+                    <button type="reset">Cancelar</button>
+                </div>
+               
+            </form>
+        </div>
+        <div id="cards-grid"></div>
+    </main>
+
+    <script src="./script/main.js"></script>
+</body>
+</html>
