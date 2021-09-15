@@ -304,4 +304,16 @@ main #card-handler form #buttons button:last-child {
     opacity: 0;
   }
 }
+
+@media (min-width: 768px) {
+  form {
+    width: 50% !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  form {
+    width: 30% !important;
+  }
+}
 /*# sourceMappingURL=styles.css.map */

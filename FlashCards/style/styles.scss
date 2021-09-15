@@ -216,10 +216,7 @@ main {
         }
         .description {
             padding: 1rem;
-        }
-        
-
-        
+        }        
     }
 }
 
@@ -241,5 +238,16 @@ main {
     }
     to {
         opacity: 0;
+    }
+}
+
+@media (min-width:768px) {
+    form {
+        width: 50% !important;
+    }
+}
+@media (min-width:1440px) {
+    form {
+        width: 30% !important;
     }
 }
