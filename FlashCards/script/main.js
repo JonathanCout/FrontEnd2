@@ -1,3 +1,4 @@
+// Elementos a serem trabalhados
 const cardHandler = document.querySelector('#card-handler')
 const form = document.querySelector('#form')
 const titleInput = document.querySelector('#title-input')
@@ -7,6 +8,7 @@ const createbutton = document.querySelector('#create-button')
 const infobutton = document.querySelector('#info-button')
 const emptyValues = document.querySelectorAll('.error-msg')
 
+// Se já houver dados no localStorage, os pega, caso contrário, é um array vazio
 let cards = JSON.parse(localStorage.getItem("cards")) || []
 
 const sendToStorage = () => {
@@ -17,6 +19,7 @@ if (!localStorage.getItem("cards")) {
     sendToStorage()
 }
 
+// Cria id's aleatórias para cada card
 const createRandomId = (length) => {
     const validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     let randomString = ""
@@ -27,6 +30,7 @@ const createRandomId = (length) => {
     return randomString
 }
 
+// Cria a lógica de cada Card
 const createCardHandler = (title, desc, url,id = null) => {
     
     const findCard = cards.find(c => c.id === id) || {
@@ -49,7 +53,7 @@ const createCardHandler = (title, desc, url,id = null) => {
     return newCard
 }
 
-
+// Cria os elementos HTML de cada card, os da atributos e os mostra no DOM
 const newCardView = id => {
     const card = cards.find(c => c.id === id)
     const cardGrid = document.querySelector('#cards-grid')
@@ -87,6 +91,7 @@ const newCardView = id => {
     deletebutton.addEventListener("click", () => cardDeleteView(card.id))
 }
 
+// Troca exibição de verdadeira para falso
 const changeView = (element, button) => {
     const current = element.getAttribute('aria-expanded')
     const map = {
@@ -106,6 +111,7 @@ const changeView = (element, button) => {
     },300)
 }
 
+// Trata valores vazios no formulário
 const emptyErrorHander = () => {
     emptyValues.forEach((e) => {
         let get = e.getAttribute('aria-expanded')
@@ -117,6 +123,7 @@ const emptyErrorHander = () => {
     })
 }
 
+// Atribui os dados do formulário ao card criado, e o mostra no DOM
 const setData = () => {
     if (titleInput.value.trim().length == 0 || cardText.value.trim().length == 0) {
         emptyValues.forEach((e) => {
@@ -130,6 +137,7 @@ const setData = () => {
     changeView(cardHandler,createbutton)
 }
 
+// Tratadores ao deletar um card específico
 const cardDeleteHandler = (id) => {
     cards = cards.filter(c => c.id !== id)
     sendToStorage()
@@ -139,6 +147,7 @@ const cardDeleteView = id => {
     document.querySelector(`#${id}`).remove()
 }
 
+// Eventos para formulário
 createbutton.addEventListener('click',() => {
     changeView(cardHandler,createbutton)
     emptyErrorHander()
@@ -156,10 +165,14 @@ form.addEventListener('submit',(event) => {
     event.preventDefault()
     setData()
 })
+
+// Aparecer e desaparecer seção de info
 infobutton.addEventListener('click', () => {
     const info = document.querySelector('#info')
     changeView(info,infobutton)
 })
+
+// Ao carregar a imagem, carrega os cards criados anteriormente
 window.onload = () => {
     if (cards && cards.length > 0) {
         cards.forEach(c => {
