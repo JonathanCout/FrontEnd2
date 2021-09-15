@@ -127,6 +127,7 @@ const setData = () => {
     }
     const newCard = createCardHandler(titleInput.value,cardText.value,image.value)
     newCardView(newCard.id)
+    changeView(cardHandler,createbutton)
 }
 
 const cardDeleteHandler = (id) => {
