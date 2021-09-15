@@ -41,8 +41,8 @@ header {
     align-items: center;
     background-color: #78b9f9;
     min-height: 10vh;
-    padding:0 1rem;
-    gap: 1rem;
+    padding:0 .8rem;
+    
 
     h1 {
         color: #f3f3f3;
@@ -73,9 +73,9 @@ header {
                 display: none;
                 position: absolute;
                 top: calc(100% + 1.5rem);
-                right: 15%;
+                right: 10%;
                 
-                padding: 1rem 3rem;
+                padding: 1rem 2rem;
                 background-color: white;
 
                 &[aria-expanded="true"] {
@@ -133,7 +133,7 @@ main {
             transform: translate(-50%, -50%);
             background-color: #e2e6ff;
             width: 80%;
-            padding: 4rem 3.5rem ;
+            padding: 3.5rem ;
             border-radius: 30px;
             label {
                 font-size: 1.2rem;
@@ -187,11 +187,10 @@ main {
 #cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(15rem,1fr));
-    gap: 10rem;
-    padding: 3rem;
+    gap: 8rem;
+    padding: 2rem 1rem;
 
     .card {
-        
         background-color: white;
         display: flex;
         flex-direction: column;
@@ -216,7 +215,7 @@ main {
             text-align: center;
         }
         .description {
-            padding: 0 .5rem;
+            padding: 1rem;
         }
         
 
