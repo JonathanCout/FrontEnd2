@@ -6,6 +6,9 @@ const operatorsBtn = document.querySelectorAll('.operator')
 
 let values = []
 let symbolFound
+let n = 0
+let result = 0
+let optClock = false
 const symbols = [
     {
         symbol: '+',
@@ -43,9 +46,7 @@ const numbers = [
     '.'
 ]
 
-let n = 0
-let result = 0
-let optClock = false
+
 
 
 // Impede inserção de caracteres não permitidos
@@ -108,9 +109,10 @@ const findOp = () => {
     if (symbolFound) {
         symbolFound.operation()
         visor.textContent += '='
+        result = isFinite(result) ? result : 'Comé que divide por 0?'
         input.value = result
         optClock = true
-        symbolFound = ''
+        symbolFound = ''  
     }
 }
 
