@@ -1,9 +1,11 @@
+const calculator = document.querySelector('.calculator')
 const visor = document.querySelector('#operation')
 const input = document.querySelector('#currentValue')
 const numberBtn = document.querySelectorAll('.numbers')
+const operatorsBtn = document.querySelectorAll('.operator')
 
 let values = []
-
+let symbolFound
 const symbols = [
     {
         symbol: '+',
@@ -19,6 +21,10 @@ const symbols = [
     },
     {
         symbol: '/',
+        operation: () => {result = values.reduce((div,a) => div /= a)}
+    },
+    {
+        symbol: '÷',
         operation: () => {result = values.reduce((div,a) => div /= a)}
     },
 ]
@@ -37,22 +43,12 @@ const numbers = [
     '.'
 ]
 
-let n
+let n = 0
 let result = 0
+let optClock = false
 
-input.focus()
-input.addEventListener('blur', () => {
-    input.focus()
-})
-input.addEventListener('keyup', (event) => {
-    validate(event)
-    getFirstNum(event)
-    if (event.key === "Enter") {
-        getSecondNum()
-        findOp()
-    }
-})
 
+// Impede inserção de caracteres não permitidos
 const validate = (event) => {
     const findSym = symbols.find(s => s.symbol === event.key)
     const findNum = numbers.find(nmb => nmb === event.key)
@@ -61,44 +57,85 @@ const validate = (event) => {
     }
 }
 
+// Verificadores se uma operação já foi realizada e a descarta para fazer uma nova
+const optClockKeyHandler = () => {
+    if (optClock) {
+        input.value = input.value.charAt(input.value.length - 1)
+        optClock = false
+    }
+}
+
+const optClockBtnHandler = () => {
+    if (optClock) {
+        input.value = ''
+        optClock = false
+    }
+}
+
+// Método resetador para o botão Clear
 const reset = () => {
     values = []
     input.value = ''
     visor.textContent = ''
 }
+
+// Captura o primeiro numero e para quando um símbolo operador for digitado
 const getFirstNum = (event) => {
-    n = input.value
-    const findSym = symbols.find(s => s.symbol === event.key) || symbols.find(s => s.symbol === event.target.textContent)
-    if (findSym) {
-        visor.textContent = n
-        if(n === event.key){
-            return
-        }
+    n = input.value 
+    symbolFound = symbols.find(s => s.symbol === event.key) || symbols.find(s => s.symbol === event.target.textContent)
+    if (symbolFound) {
         n.slice(0,-1)
-        values=[parseFloat(n)]
+        n = parseFloat(n)
+        n = isNaN(n) ? 0 : n
+        values=[n]
+        visor.textContent = `${n}${symbolFound.symbol}`
         input.value = ''   
     }   
 }
 
-const findOp = () => {
-    const opFound = symbols.find(s => visor.textContent.includes(s.symbol))
-    if (opFound) {
-        opFound.operation()
-        visor.textContent += '='
-        input.value = result
-    }
-}
-
+// Pega o segundo valor quando for pressionado Enter
 const getSecondNum = () => {
-    if (result == 0) {
-        n = input.value
-    }
+    n = input.value
     visor.textContent += n
     values.push(parseFloat(n))
     input.value = ''
 }
 
+// Encontra o operador digitado, o pesquisa no array e faz a operação
+const findOp = () => {
+    if (symbolFound) {
+        symbolFound.operation()
+        visor.textContent += '='
+        input.value = result
+        optClock = true
+        symbolFound = ''
+    }
+}
+
+// Conserta o foco para fora da calculadora
+document.addEventListener('click', evt =>{
+    console.log(evt.target.className)
+    const classes = ['numbers','symbol','operator']
+    if(!classes.some(c => evt.target.className.includes(c))) {
+        input.focus()
+    }
+})
+
+
+input.addEventListener('keyup', (event) => {
+    if (!symbolFound) {
+        getFirstNum(event)
+    }
+    optClockKeyHandler()
+    validate(event)
+    if (event.key === "Enter") {
+        getSecondNum()
+        findOp() 
+    }
+})
+
 numberBtn.forEach(btn => btn.addEventListener('click',() => {
+    optClockBtnHandler()
     input.value += btn.textContent
 }))
 
