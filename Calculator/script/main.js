@@ -96,8 +96,10 @@ const getFirstNum = (event) => {
 // Pega o segundo valor quando for pressionado Enter
 const getSecondNum = () => {
     n = input.value
+    n = parseFloat(n)
+    n = isNaN(n) ? 0 : n
     visor.textContent += n
-    values.push(parseFloat(n))
+    values.push(n)
     input.value = ''
 }
 
