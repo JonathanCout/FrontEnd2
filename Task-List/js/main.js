@@ -1,6 +1,5 @@
 const list = document.querySelector('.lista')
 const form = document.querySelector('.form')
-
 let tasks = JSON.parse(localStorage.getItem("tarefas")) || []
 let validator = true
 // lógica
@@ -15,7 +14,7 @@ if (!localStorage.getItem("tarefas")) {
 
 const createRandomId = (length) => {
     const validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    let randomString = ""
+    let randomString = validChars[Math.floor(Math.random()*(validChars.length - 10))]
     for (let i = 0; i <= length; i++) {
         const random = Math.floor(Math.random() * (validChars.length - 1))
         randomString += validChars[random]
@@ -41,29 +40,39 @@ const validateTasks = (desc) => {
     validator = true
 }
 
-const taskMakeHandler = (description, id = null) => {
+const taskMakeHandler = (description) => {
     validateTasks(description)
     if (!validator) {
         return
     }
-    const findTask = tasks.find(t => t.id === id) || {
-        id: createRandomId(16),
-        done: false
-    }
-
-    if (id && findTask.id !== id) {
-        return
-    }
 
     const newTask = {
-        ...findTask,
-        description: description.trim()
+        id: createRandomId(16),
+        description: description.trim(),
+        done: false,
     }
 
     tasks.push(newTask)
     sendToStorage()
 
     return newTask
+}
+
+const taskEditHandler = (description, id) => {
+    validateTasks(description)
+
+    if (!validator) {
+        
+        return
+    }
+
+    tasks.forEach(t => {
+        if (t.id === id) {
+            t.description = description.trim()
+        }
+    })
+
+    sendToStorage()
 }
 
 const taskDoneHandler = (id) => {
@@ -206,7 +215,7 @@ const newTaskView = id => {
     newLi.classList.add('tarefa')
     newLi.id = task.id
     list.appendChild(newLi)
-    label.innerHTML = task.description
+    label.textContent = task.description
 
     input.addEventListener("change", () => taskDoneView(task.id))
     delButton.addEventListener("click", () => taskDeleteView(task.id))
@@ -215,10 +224,8 @@ const newTaskView = id => {
         if (e.key === "Escape") {
             taskEditView(task.id, false)
         }
-        if (e.key === "Enter" && !validator) {
+        if (e.key === "Enter") {
             taskEditView(task.id)
-        } else if (e.key === "Enter" && validator) {
-            taskEditView(task.id, false)
         }
     }) 
 }
@@ -240,11 +247,13 @@ const taskEditView = (id, submit = true) => {
     const taskEdit = document.querySelector(`#edit-${id}`)
     const labelEdit = document.querySelector(`#label-${id}`)
     if (!taskEdit.classList.contains("disabled") && submit) {
-        taskMakeHandler(taskEdit.value, id)
+        taskEditHandler(taskEdit.value, id)
     }
     taskEdit.classList.toggle("disabled")
     labelEdit.classList.toggle("disabled")
-    // labelEdit.textContent = taskEdit.value
+    if (validator) {
+        labelEdit.textContent = taskEdit.value
+    }
     taskEdit.focus()
 }
 

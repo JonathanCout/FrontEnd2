@@ -134,10 +134,6 @@ body {
   padding: 1rem 3rem;
 }
 
-.task-checker:checked + label {
-  text-decoration: line-through;
-}
-
 .edit-task-btn{
   background-color: #f71780;
 }
