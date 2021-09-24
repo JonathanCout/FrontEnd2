@@ -416,6 +416,7 @@ form.addEventListener('submit', (event) => {
     event.preventDefault()
     createNewTask()
     newTaskInput.value = ""
+    dateInput.value = ""
 })
 
 window.onload = () => {
