@@ -2,11 +2,15 @@ const list = document.querySelector('.list')
 const form = document.querySelector('.form')
 const showInput = document.querySelector('#show-input')
 const newTaskInput = document.querySelector("#new-task-input")
+const dateInput = document.querySelector("#new-task-date")
 const legend = document.querySelector(".fake")
 const mainCard = document.querySelector(".main-card")
+
 let tasks = JSON.parse(localStorage.getItem("tarefas")) || []
 let validator = true
 
+let today = new Date();
+dateInput.setAttribute('min',`${today.getFullYear()}-0${today.getMonth()+1}-${today.getDate()}`)
 // lógica
 
 const sendToStorage = () => {
@@ -59,7 +63,6 @@ const taskMakeHandler = (description, date) => {
         return
     }
 
-    let today = new Date();
     let time = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`
     const newTask = {
         id: createRandomId(16),
@@ -114,7 +117,6 @@ const confirmDelete = id => {
     confirmBtn.classList.add('confirm-btn')
     confirmBtn.textContent = 'Confirmar'
     confDel.appendChild(confirmBtn)
-
 
     const cancelBtn = document.createElement('button')
     cancelBtn.classList.add('cancel-btn')
@@ -357,6 +359,7 @@ const taskEditView = (id, submit = true) => {
     labelEdit.classList.toggle("disabled")
     if (validator) {
         labelEdit.textContent = taskEdit.value
+        document.querySelector(`#${id}`).classList.remove('done')
     }
     taskEdit.focus()
 }
@@ -364,7 +367,7 @@ const taskEditView = (id, submit = true) => {
 
 // Inserção de dados
 const createNewTask = () => {
-    const date = document.querySelector('#new-task-date').value
+    const date = dateInput.value
     const newTask = taskMakeHandler(newTaskInput.value, date)
     if (newTask) {
         newTaskView(newTask.id)

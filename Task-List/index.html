@@ -10,25 +10,22 @@
 </head>
 
 <body>
-  <header>
-    <h1>My Todo List</h1>
-  </header>
   <main>
     <div class="main-card">
       <div class="card-header">
-        <h2 class="titulo">Minha Lista</h2>
+        <h1 class="titulo">Minha Lista</h1>
         <button id="show-input">+</button>
       </div>
       <form aria-expanded="false" data-transition="false" class="form">
-        <fieldset>
-          <legend aria-expanded="false" data-transition="false" class="fake">Descrição</legend>
+        <div>
+          <p aria-expanded="false" data-transition="false" class="fake">Descrição</p>
           <input class="form-input" type="text" id="new-task-input" autocomplete="off">
-        </fieldset>
+        </div>
         <fieldset>
           <legend>Data limite</legend>
           <input class="form-input" type="date" id="new-task-date">
         </fieldset>
-        <button class="form-botao">Done</button>
+        <button class="form-botao">Criar</button>
       </form>
     </div>
     <ul class="list disabled">
