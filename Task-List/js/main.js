@@ -63,7 +63,7 @@ const taskMakeHandler = (description, date) => {
         return
     }
 
-    let time = `${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`
+    let time = `${today.getDate()}/0${today.getMonth()+1}/${today.getFullYear()}`
     const newTask = {
         id: createRandomId(16),
         description: description.trim(),
