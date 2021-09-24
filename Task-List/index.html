@@ -1,30 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BioRhyme&amp;family=Space+Mono&amp;display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <title>Task-List</title>
+  <link rel="stylesheet" href="./css/styles.css">
+
+  <title>ToDo List</title>
 </head>
+
 <body>
-  <div class="app">
-    <div class="listaTarefas">
-      <h1 class="titulo">
-        Minha Lista de Tarefas
-      </h1>
-      <h3>Botão rosa = Editar tarefa</h3>
-      <h3>Botão cinza escuro = deletar tarefa</h3>
-      <form class="form" id="formulario" action="">
-        <input class="form-input" type="text" id="new-task-input">
-        <button class="form-botao"> Nova Tarefa </button>
+  <header>
+    <h1>My Todo List</h1>
+  </header>
+  <main>
+    <div class="main-card">
+      <div class="card-header">
+        <h2 class="titulo">Minha Lista</h2>
+        <button id="show-input">+</button>
+      </div>
+      <form aria-expanded="false" data-transition="false" class="form">
+        <fieldset>
+          <legend aria-expanded="false" data-transition="false" class="fake">Descrição</legend>
+          <input class="form-input" type="text" id="new-task-input" autocomplete="off">
+        </fieldset>
+        <fieldset>
+          <legend>Data limite</legend>
+          <input class="form-input" type="date" id="new-task-date">
+        </fieldset>
+        <button class="form-botao">Done</button>
       </form>
-<!-- Código acima foi entregue pela DH  -->
-      <ul class="lista">
-      </ul>
     </div>
-  </div>
+    <ul class="list disabled">
+    </ul>
+  </main>
+
+
   <script src="./js/main.js"></script>
 </body>
+
 </html>

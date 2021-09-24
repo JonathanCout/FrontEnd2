@@ -1,7 +1,12 @@
-const list = document.querySelector('.lista')
+const list = document.querySelector('.list')
 const form = document.querySelector('.form')
+const showInput = document.querySelector('#show-input')
+const newTaskInput = document.querySelector("#new-task-input")
+const legend = document.querySelector(".fake")
+const mainCard = document.querySelector(".main-card")
 let tasks = JSON.parse(localStorage.getItem("tarefas")) || []
 let validator = true
+
 // lógica
 
 const sendToStorage = () => {
@@ -14,7 +19,7 @@ if (!localStorage.getItem("tarefas")) {
 
 const createRandomId = (length) => {
     const validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    let randomString = validChars[Math.floor(Math.random()*(validChars.length - 10))]
+    let randomString = validChars[Math.floor(Math.random() * (validChars.length - 10))]
     for (let i = 0; i <= length; i++) {
         const random = Math.floor(Math.random() * (validChars.length - 1))
         randomString += validChars[random]
@@ -29,7 +34,7 @@ const validateTasks = (desc) => {
         return
     }
     const taskFound = tasks.find(t => t.description === desc.trim())
-    
+
     if (taskFound) {
         const conf = confirm("Essa tarefa já existe, deseja mesmo criar uma cópia?")
         if (!conf) {
@@ -40,15 +45,27 @@ const validateTasks = (desc) => {
     validator = true
 }
 
-const taskMakeHandler = (description) => {
+const dateFixer = (date) => {
+    if (date) {
+        const d = date.split('-')
+        return `${d[2]}/${d[1]}/${d[0]}`
+    }
+ 
+}
+
+const taskMakeHandler = (description, date) => {
     validateTasks(description)
     if (!validator) {
         return
     }
 
+    let today = new Date();
+    let time = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`
     const newTask = {
         id: createRandomId(16),
         description: description.trim(),
+        currentDate: time,
+        date: dateFixer(date),
         done: false,
     }
 
@@ -62,7 +79,6 @@ const taskEditHandler = (description, id) => {
     validateTasks(description)
 
     if (!validator) {
-        
         return
     }
 
@@ -81,12 +97,42 @@ const taskDoneHandler = (id) => {
     sendToStorage()
 }
 
-const taskDeleteHandler = (id) => {
-    tasks = tasks.filter(t => t.id !== id)
-    sendToStorage()
+const confirmDelete = id => {
+    const li = document.querySelector(`#${id}`)
+
+    const confDel = document.createElement('div')
+    confDel.classList.add('confirm')
+    
+    li.appendChild(confDel)
+
+    const p = document.createElement('p')
+    p.classList.add('confirm-txt')
+    p.textContent = "Confirmar exclusão"
+    confDel.appendChild(p)
+
+    const confirmBtn = document.createElement('button')
+    confirmBtn.classList.add('confirm-btn')
+    confirmBtn.textContent = 'Confirmar'
+    confDel.appendChild(confirmBtn)
+
+
+    const cancelBtn = document.createElement('button')
+    cancelBtn.classList.add('cancel-btn')
+    confDel.appendChild(cancelBtn)
+    cancelBtn.textContent = 'Cancelar'
+
+    confirmBtn.addEventListener('click', () => {
+        taskDeleteView(id) 
+    })
+    cancelBtn.addEventListener('click', () => {
+        confDel.remove()
+    })
+
 }
-
-
+const taskDeleteHandler = (id) => {  
+    tasks = tasks.filter(t => t.id !== id)
+    sendToStorage() 
+}
 // apresentação
 
 // Funcão para setar atributos
@@ -99,7 +145,6 @@ const setValues = (model, element) => {
 // Capturação da tarefa e criação de "li"
 const newTaskView = id => {
     const task = tasks.find(t => t.id === id)
-
     const newLi = document.createElement("li")
     // Atributos da nova "li"
     const input = document.createElement('input')
@@ -107,6 +152,9 @@ const newTaskView = id => {
     const editInput = document.createElement('input')
     const editButton = document.createElement('button')
     const delButton = document.createElement('button')
+    const dateDiv = document.createElement('div')
+    const createdDate = document.createElement('p')
+    const taskDate = document.createElement('p')
 
     // Modelos dos atributos
     const elementModels = [
@@ -131,7 +179,6 @@ const newTaskView = id => {
                 }
             ]
         },
-
         {
             element: editInput,
             props: [
@@ -181,11 +228,10 @@ const newTaskView = id => {
                 },
                 {
                     key: "class",
-                    value: "edit-task-btn"
+                    value: "edit-task-btn bg-btn"
                 }
             ]
         },
-
         {
             element: delButton,
             props: [
@@ -195,10 +241,41 @@ const newTaskView = id => {
                 },
                 {
                     key: "class",
-                    value: "delete-task"
+                    value: "delete-task-btn bg-btn"
                 }
             ]
-        }   
+        },
+        {
+            element: dateDiv,
+            props: [
+                {
+                    key: "id",
+                    value: "date-div"
+                }
+            ]
+        },
+        {
+            element: createdDate,
+            props: [
+                {
+                    key: "class",
+                    value: "created date-task"
+                }
+            ]
+        },
+        {
+            element: taskDate,
+            props: [
+                {
+                    key: "class",
+                    value: "limit date-task"
+                },
+                {
+                    key: "id",
+                    value: `date-${task.id}`
+                }
+            ]
+        }
     ]
 
     for (let element of elementModels) {
@@ -206,19 +283,36 @@ const newTaskView = id => {
         newLi.appendChild(element.element)
     }
 
+    dateDiv.appendChild(createdDate)
+    dateDiv.appendChild(taskDate)
+    
     input.checked = task.done
     if (task.done) {
         newLi.classList.add("done")
     }
 
     // Inserção dos dados nas "li"
-    newLi.classList.add('tarefa')
+    newLi.classList.add('task')
     newLi.id = task.id
+    newLi.setAttribute('aria-expanded','false')
+    newLi.setAttribute('data-transition','false')
+    
     list.appendChild(newLi)
+
     label.textContent = task.description
 
-    input.addEventListener("change", () => taskDoneView(task.id))
-    delButton.addEventListener("click", () => taskDeleteView(task.id))
+    if (task.date) {
+        taskDate.textContent = `Fazer até: ${task.date}`
+    } else if(!task.date) {
+        taskDate.remove()
+    }
+    createdDate.textContent = `Criada em: ${task.currentDate}`
+
+    label.addEventListener('click', () => {
+        taskDoneView(task.id)
+        showView(newLi)
+    })
+    delButton.addEventListener("click", () => confirmDelete(task.id))
     editButton.addEventListener("click", () => taskEditView(task.id))
     editInput.addEventListener("keyup", (e) => {
         if (e.key === "Escape") {
@@ -227,22 +321,32 @@ const newTaskView = id => {
         if (e.key === "Enter") {
             taskEditView(task.id)
         }
-    }) 
+    })
 }
 
-function taskDoneView(id) {
+const taskDoneView = id => {
     taskDoneHandler(id)
     const task = document.querySelector(`#${id}`)
     task.classList.toggle("done")
+
+    if (task.classList.contains('done')) {
+        task.setAttribute('aria-expanded','true')
+        task.setAttribute('data-transition','true')
+    }   
 }
 
 const taskDeleteView = id => {
     taskDeleteHandler(id)
     document.querySelector(`#${id}`).remove()
+    lengthChecker()    
 }
 
-
-
+const lengthChecker = () => {
+    const lisCount = document.getElementsByTagName('li')
+    if (lisCount.length == 0) {
+        list.classList.add('disabled')
+    }
+}
 const taskEditView = (id, submit = true) => {
     const taskEdit = document.querySelector(`#edit-${id}`)
     const labelEdit = document.querySelector(`#label-${id}`)
@@ -260,22 +364,62 @@ const taskEditView = (id, submit = true) => {
 
 // Inserção de dados
 const createNewTask = () => {
-    const description = document.querySelector('.form-input').value
-    const newTask = taskMakeHandler(description)
-    newTaskView(newTask.id)
+    const date = document.querySelector('#new-task-date').value
+    const newTask = taskMakeHandler(newTaskInput.value, date)
+    if (newTask) {
+        newTaskView(newTask.id)
+        showView(form)
+        list.classList.remove('disabled')
+    }
 }
 
+const showView = (element, fixed = null) => {
+    const current = fixed || element.getAttribute("aria-expanded")
+
+    const map = {
+        "true": "false",
+        "false": "true",
+    }
+
+    element.setAttribute("aria-expanded", map[current])
+
+    setTimeout(() => {
+        element.setAttribute("data-transition", map[current])
+    }, 400)
+
+}
+
+showInput.addEventListener('click', () => {
+    showView(form)
+    showView(legend, "true")
+    newTaskInput.value = ''
+})
+newTaskInput.addEventListener('focus', () => {
+    showView(legend, "false")
+})
+legend.addEventListener('click', () => {
+    showView(legend, "false")
+    newTaskInput.focus()
+})
+newTaskInput.addEventListener('blur', () => {
+    if (newTaskInput.value.length > 0) {
+        return
+    }
+    showView(legend, "true")
+})
 // Impedir que a página seja recarregada ao apertar o botão 'nova tarefa'
 form.addEventListener('submit', (event) => {
     event.preventDefault()
     createNewTask()
-    document.querySelector("#new-task-input").value = ""
+    newTaskInput.value = ""
 })
 
 window.onload = () => {
+    
     if (tasks && tasks.length > 0) {
         tasks.forEach(t => {
-            newTaskView(t.id) 
+            newTaskView(t.id)
         })
+        list.classList.remove('disabled')
     }
 }
