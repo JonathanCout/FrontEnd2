@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Hind+Siliguri:wght@300&family=Scheherazade+New&display=swap');
 :root {
   --body-bg: rgb(90,113,233);
   --body-grad1:rgba(90,113,233,1);
@@ -19,6 +19,7 @@ body {
   background: var(--body-bg);
   background: linear-gradient(195deg, var(--body-grad1) 50%, var(--body-grad2) 50%);
   background-repeat: no-repeat;
+  font-family: 'Poppins', sans-serif;
 
   main {
       display: flex;
@@ -34,18 +35,19 @@ body {
         align-items: center;
         background-color: var(--card-bg);
         width: stretch;
-        max-width: 17rem;
+        max-width: 19rem;
         padding: 1rem;
         border-radius: 9px;
         
-
         .card-header {
           display: flex;
           gap: 1.5rem;
           align-items: center;
-          
+                    
           h1 {
+            font-family: 'Poppins', sans-serif;
             font-size: 1.5rem;
+            font-weight: 700;
           }
           #show-input {
             width: 2rem;
@@ -55,7 +57,6 @@ body {
             color: white;
             font-size: 1.2rem;
             background-color: var(--plus-btn); 
-
           }
         }
         form {
@@ -74,7 +75,7 @@ body {
           }
           div {           
               p {                
-                transform: translateY(1.27rem)
+                transform: translateY(1.7rem)
                   translateX(.5rem);
 
                 &[aria-expanded="true"] {
@@ -85,18 +86,28 @@ body {
                 }
               }
           }
-          div,fieldset {
-            
-            border: none;
-            
+          div,fieldset {           
+            border: none;    
             input {
               width: 100%;
-              height: 1.3rem;
+              height: 1.5rem;
             } 
           } 
           .form-botao {
-            width: 35%;
-            
+            width: 35%;  
+            padding: .3rem;
+            background-color: #c0fafa;
+            border-radius: 9px;
+            border: none;
+            box-shadow: .1rem .1rem 0 0;
+
+            &:hover {
+              transform: scale(1.1);
+            }
+            &:focus {
+              transform: scale(1);
+              box-shadow: none;
+            }
           }  
         }
       }
@@ -150,11 +161,11 @@ body {
             }
             label {
               width: 100%;
-              padding: 0 .5rem;
-              
+              padding: 0 .5rem;  
+              cursor: pointer;         
               display: block;
               position: relative;
-              cursor: pointer;
+              top: -.15rem;
 
               &::before {
                 content: '';
@@ -162,7 +173,7 @@ body {
                 width: 1rem;
                 height: 1rem;
                 left: -1.8rem;
-                top: 0;
+                top: 0.17rem;
                 border-radius: 4px;
                 border: 1px solid gray;
               }
@@ -172,8 +183,8 @@ body {
                 position: absolute;
                 width: .7rem;
                 height: .7rem;
-                left: -1.55rem;
-                top:0.2rem;
+                left: -1.6rem;
+                top:0.3rem;
                 background-image: url('https://cdn-icons-png.flaticon.com/512/594/594586.png');
                 background-size: contain;               
                 background-repeat: no-repeat;
@@ -201,34 +212,38 @@ body {
             .confirm {
               position: absolute;    
               bottom: .2rem;         
-              left: .3rem;
+              left: 1rem;
               grid-row: 3;              
               grid-column: 2/-1;
               padding: .3rem .6rem;
-              background-color: rgb(245, 245, 245);
-              border-radius: 10px;
               justify-self: start;
+
+              background-color: #adcdfb;
+              font-weight: 700;
+
+              border-radius: 10px;
               border-top: 1px solid rgb(129, 125, 125);
               border-left: 1px solid rgb(129, 125, 125);
               box-shadow: .1rem .1rem 0 0 rgba(0, 0, 0, 0.5);
 
               p {
-                font-size: .75rem;
+                font-size: .8rem;
                 text-align: center;
                 font-family: 'Hind Siliguri', sans-serif;
               }
 
               button {
-                font-size: .65rem;
+                font-size: .7rem;
                 border-radius: 5px;
                 padding: .1rem .2rem;
                 margin: 0 .3rem;
-
+                font-weight: 700;
                 &:first-of-type {
                   background-color: #e63737;                  
                   color: white;
                 }
                 &:last-of-type {
+                  
                   background-color: white;
                   color: black;
                 }
@@ -350,7 +365,7 @@ body {
 
 @keyframes goUp {
   from {
-    transform: translateY(1.27rem)
+    transform: translateY(1.7rem)
     translateX(.5rem);
   }
   to {
@@ -365,7 +380,7 @@ body {
     translateX(0);
   }
   to {
-    transform: translateY(1.27rem)
+    transform: translateY(1.7rem)
     translateX(.5rem);
   }
 }

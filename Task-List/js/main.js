@@ -144,6 +144,7 @@ const setValues = (model, element) => {
     }
 }
 
+
 // Capturação da tarefa e criação de "li"
 const newTaskView = id => {
     const task = tasks.find(t => t.id === id)
@@ -357,6 +358,7 @@ const taskEditView = (id, submit = true) => {
     }
     taskEdit.classList.toggle("disabled")
     labelEdit.classList.toggle("disabled")
+
     if (validator) {
         labelEdit.textContent = taskEdit.value
         document.querySelector(`#${id}`).classList.remove('done')
@@ -389,7 +391,6 @@ const showView = (element, fixed = null) => {
     setTimeout(() => {
         element.setAttribute("data-transition", map[current])
     }, 400)
-
 }
 
 showInput.addEventListener('click', () => {

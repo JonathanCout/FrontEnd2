@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Hind+Siliguri:wght@300&family=Scheherazade+New&display=swap");
 :root {
   --body-bg: rgb(90,113,233);
   --body-grad1:rgba(90,113,233,1);
@@ -23,6 +23,7 @@ body {
   background: var(--body-bg);
   background: linear-gradient(195deg, var(--body-grad1) 50%, var(--body-grad2) 50%);
   background-repeat: no-repeat;
+  font-family: 'Poppins', sans-serif;
 }
 
 body main {
@@ -57,7 +58,7 @@ body main .main-card {
   width: -webkit-fill-available;
   width: -moz-available;
   width: stretch;
-  max-width: 17rem;
+  max-width: 19rem;
   padding: 1rem;
   border-radius: 9px;
 }
@@ -73,7 +74,9 @@ body main .main-card .card-header {
 }
 
 body main .main-card .card-header h1 {
+  font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
+  font-weight: 700;
 }
 
 body main .main-card .card-header #show-input {
@@ -113,8 +116,8 @@ body main .main-card form[aria-expanded="false"][data-transition="true"] {
 }
 
 body main .main-card form div p {
-  -webkit-transform: translateY(1.27rem) translateX(0.5rem);
-          transform: translateY(1.27rem) translateX(0.5rem);
+  -webkit-transform: translateY(1.7rem) translateX(0.5rem);
+          transform: translateY(1.7rem) translateX(0.5rem);
 }
 
 body main .main-card form div p[aria-expanded="true"] {
@@ -133,11 +136,29 @@ body main .main-card form div, body main .main-card form fieldset {
 
 body main .main-card form div input, body main .main-card form fieldset input {
   width: 100%;
-  height: 1.3rem;
+  height: 1.5rem;
 }
 
 body main .main-card form .form-botao {
   width: 35%;
+  padding: .3rem;
+  background-color: #c0fafa;
+  border-radius: 9px;
+  border: none;
+  -webkit-box-shadow: .1rem .1rem 0 0;
+          box-shadow: .1rem .1rem 0 0;
+}
+
+body main .main-card form .form-botao:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+body main .main-card form .form-botao:focus {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 body main ul {
@@ -215,9 +236,10 @@ body main ul li input[type=checkbox] {
 body main ul li label {
   width: 100%;
   padding: 0 .5rem;
+  cursor: pointer;
   display: block;
   position: relative;
-  cursor: pointer;
+  top: -.15rem;
 }
 
 body main ul li label::before {
@@ -226,7 +248,7 @@ body main ul li label::before {
   width: 1rem;
   height: 1rem;
   left: -1.8rem;
-  top: 0;
+  top: 0.17rem;
   border-radius: 4px;
   border: 1px solid gray;
 }
@@ -236,8 +258,8 @@ body main ul li label::after {
   position: absolute;
   width: .7rem;
   height: .7rem;
-  left: -1.55rem;
-  top: 0.2rem;
+  left: -1.6rem;
+  top: 0.3rem;
   background-image: url("https://cdn-icons-png.flaticon.com/512/594/594586.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -273,15 +295,16 @@ body main ul li .date-task {
 body main ul li .confirm {
   position: absolute;
   bottom: .2rem;
-  left: .3rem;
+  left: 1rem;
   -ms-grid-row: 3;
   grid-row: 3;
   grid-column: 2/-1;
   padding: .3rem .6rem;
-  background-color: whitesmoke;
-  border-radius: 10px;
   -ms-grid-column-align: start;
       justify-self: start;
+  background-color: #adcdfb;
+  font-weight: 700;
+  border-radius: 10px;
   border-top: 1px solid #817d7d;
   border-left: 1px solid #817d7d;
   -webkit-box-shadow: 0.1rem 0.1rem 0 0 rgba(0, 0, 0, 0.5);
@@ -289,16 +312,17 @@ body main ul li .confirm {
 }
 
 body main ul li .confirm p {
-  font-size: .75rem;
+  font-size: .8rem;
   text-align: center;
   font-family: 'Hind Siliguri', sans-serif;
 }
 
 body main ul li .confirm button {
-  font-size: .65rem;
+  font-size: .7rem;
   border-radius: 5px;
   padding: .1rem .2rem;
   margin: 0 .3rem;
+  font-weight: 700;
 }
 
 body main ul li .confirm button:first-of-type {
@@ -470,8 +494,8 @@ body main ul li[aria-expanded="false"][data-transition="true"] > label::after {
 
 @-webkit-keyframes goUp {
   from {
-    -webkit-transform: translateY(1.27rem) translateX(0.5rem);
-            transform: translateY(1.27rem) translateX(0.5rem);
+    -webkit-transform: translateY(1.7rem) translateX(0.5rem);
+            transform: translateY(1.7rem) translateX(0.5rem);
   }
   to {
     -webkit-transform: translateY(-0.3rem) translateX(0);
@@ -481,8 +505,8 @@ body main ul li[aria-expanded="false"][data-transition="true"] > label::after {
 
 @keyframes goUp {
   from {
-    -webkit-transform: translateY(1.27rem) translateX(0.5rem);
-            transform: translateY(1.27rem) translateX(0.5rem);
+    -webkit-transform: translateY(1.7rem) translateX(0.5rem);
+            transform: translateY(1.7rem) translateX(0.5rem);
   }
   to {
     -webkit-transform: translateY(-0.3rem) translateX(0);
@@ -496,8 +520,8 @@ body main ul li[aria-expanded="false"][data-transition="true"] > label::after {
             transform: translateY(-0.3rem) translateX(0);
   }
   to {
-    -webkit-transform: translateY(1.27rem) translateX(0.5rem);
-            transform: translateY(1.27rem) translateX(0.5rem);
+    -webkit-transform: translateY(1.7rem) translateX(0.5rem);
+            transform: translateY(1.7rem) translateX(0.5rem);
   }
 }
 
@@ -507,8 +531,8 @@ body main ul li[aria-expanded="false"][data-transition="true"] > label::after {
             transform: translateY(-0.3rem) translateX(0);
   }
   to {
-    -webkit-transform: translateY(1.27rem) translateX(0.5rem);
-            transform: translateY(1.27rem) translateX(0.5rem);
+    -webkit-transform: translateY(1.7rem) translateX(0.5rem);
+            transform: translateY(1.7rem) translateX(0.5rem);
   }
 }
 /*# sourceMappingURL=styles.css.map */
