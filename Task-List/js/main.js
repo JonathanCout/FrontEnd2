@@ -35,7 +35,7 @@ const createRandomId = (length) => {
     return randomString
 }
 
-const validateTasks = (desc,err) => {
+const validateTasks = (desc,err, id) => {
     
     if (desc.trim().length <= 10) {
         err.textContent = "A tarefa deve ter mais de 10 caracteres"
@@ -43,7 +43,7 @@ const validateTasks = (desc,err) => {
         validator = false
         return
     }
-    const taskFound = tasks.find(t => t.description === desc.trim())
+    const taskFound = tasks.find(t => t.description === desc.trim() && t.id !== id)
 
     if (taskFound) {
         const conf = confirm("Essa tarefa já existe, deseja mesmo criar uma cópia?")
@@ -64,7 +64,7 @@ const dateFixer = (date) => {
 }
 
 const taskMakeHandler = (description, date) => {
-    validateTasks(description,errorMsg)
+    validateTasks(description,errorMsg,0)
     if (!validator) {
         return
     }
@@ -85,7 +85,7 @@ const taskMakeHandler = (description, date) => {
 }
 
 const taskEditHandler = (description, id) => {
-    validateTasks(description,document.querySelector(`#error-${id}`))
+    validateTasks(description,document.querySelector(`#error-${id}`),id)
     if (!validator) {
         return
     }

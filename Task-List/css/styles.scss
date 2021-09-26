@@ -96,7 +96,7 @@ body {
               }
             }                       
               .error-msg {
-                font-size: .6rem;
+                font-size: .8rem;
                 font-weight: 700;
                 padding: .3rem 0;
                 color: var(--conf-bt-bg);
@@ -137,7 +137,7 @@ body {
           width: 100%;
           overflow: hidden;
           overflow-y: scroll;    
-          background-color: var(--plus-bt);
+          background-color: transparent;
           list-style-type: none;
 
           li {
@@ -149,6 +149,7 @@ body {
             border-radius: 10px;
             border: 2px solid rgb(224, 221, 221);
             box-shadow: .1rem .1rem 0 0 rgb(151, 150, 150);
+            background-color: white;
 
             .task-checker {
               grid-row: 1/2;
