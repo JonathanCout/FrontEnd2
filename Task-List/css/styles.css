@@ -144,7 +144,18 @@ body main .main-card form div .description p[aria-expanded="false"][data-transit
 }
 
 body main .main-card form div .description button {
-  padding: 0 0.2rem;
+  background-image: url("https://cdn-icons-png.flaticon.com/512/1159/1159745.png");
+  background-size: contain;
+  border: none;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  width: 11%;
+}
+
+body main .main-card form div .description button:focus {
+  -webkit-transition: background 400ms;
+  transition: background 400ms;
+  background-image: url("https://cdn-icons-png.flaticon.com/512/248/248961.png");
 }
 
 body main .main-card form div .error-msg {
@@ -166,11 +177,12 @@ body main .main-card form div input, body main .main-card form fieldset input {
 body main .main-card form .form-botao {
   width: 35%;
   padding: .3rem;
-  background-color: var(--form-btn-bg);
+  background-color: var(--body-grad2);
+  font-size: 1rem;
   border-radius: 9px;
   border: none;
-  -webkit-box-shadow: .1rem .1rem 0 0;
-          box-shadow: .1rem .1rem 0 0;
+  -webkit-box-shadow: 0.15rem 0.2rem 0 0 rgba(0, 0, 0, 0.164);
+          box-shadow: 0.15rem 0.2rem 0 0 rgba(0, 0, 0, 0.164);
 }
 
 body main .main-card form .form-botao:hover {

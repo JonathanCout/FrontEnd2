@@ -91,8 +91,18 @@ body {
                   animation: goDown 400ms forwards;
                 }
               }
-              button {
-                padding: 0 0.2rem;
+              button {         
+                background-image: url('https://cdn-icons-png.flaticon.com/512/1159/1159745.png');
+                background-size: contain;
+                border: none;
+                background-repeat: no-repeat;
+                background-color: transparent;
+                width: 11%;
+                
+                &:focus {
+                  transition: background 400ms ;
+                  background-image: url('https://cdn-icons-png.flaticon.com/512/248/248961.png');
+                }
               }
             }                       
               .error-msg {
@@ -112,10 +122,11 @@ body {
           .form-botao {
             width: 35%;  
             padding: .3rem;
-            background-color: var(--form-btn-bg);
+            background-color: var(--body-grad2);
+            font-size: 1rem;
             border-radius: 9px;
             border: none;
-            box-shadow: .1rem .1rem 0 0;
+            box-shadow: .15rem .2rem 0 0 rgba(0, 0, 0, 0.164);
 
             &:hover {
               transform: scale(1.1);
@@ -129,10 +140,8 @@ body {
       }
         ul {
           display: grid;
-          border-radius: 9px;
-          
+          border-radius: 9px;    
           max-height: 60vh;         
-         
           gap: 1rem;
           width: 100%;
           overflow: hidden;
