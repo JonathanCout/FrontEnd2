@@ -406,7 +406,7 @@ body main ul li[aria-expanded="false"][data-transition="true"] > label::after {
 }
 
 .done {
-  opacity: 0.4;
+  opacity: 0.7;
 }
 
 .done label {
