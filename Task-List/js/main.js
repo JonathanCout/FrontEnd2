@@ -5,7 +5,7 @@ const newTaskInput = document.querySelector("#new-task-input")
 const dateInput = document.querySelector("#new-task-date")
 const legend = document.querySelector(".fake")
 const mainCard = document.querySelector(".main-card")
-
+const errorMsg = document.querySelector('.error-msg')
 let tasks = JSON.parse(localStorage.getItem("tarefas")) || []
 let validator = true
 
@@ -31,9 +31,11 @@ const createRandomId = (length) => {
     return randomString
 }
 
-const validateTasks = (desc) => {
-    if (desc.trim().length == 0) {
-        alert("Favor inserir alguma tarefa")
+const validateTasks = (desc,err) => {
+    
+    if (desc.trim().length < 10) {
+        err.textContent = "A tarefa deve ter no mínimo 10 caracteres"
+        err.classList.remove('disabled')
         validator = false
         return
     }
@@ -58,7 +60,7 @@ const dateFixer = (date) => {
 }
 
 const taskMakeHandler = (description, date) => {
-    validateTasks(description)
+    validateTasks(description,errorMsg)
     if (!validator) {
         return
     }
@@ -79,7 +81,8 @@ const taskMakeHandler = (description, date) => {
 }
 
 const taskEditHandler = (description, id) => {
-    validateTasks(description)
+
+    validateTasks(description,document.querySelector(`#error-${id}`))
 
     if (!validator) {
         return
@@ -102,10 +105,13 @@ const taskDoneHandler = (id) => {
 
 const confirmDelete = id => {
     const li = document.querySelector(`#${id}`)
-
+   
     const confDel = document.createElement('div')
+
     confDel.classList.add('confirm')
-    
+    confDel.setAttribute('aria-expanded','false')
+    confDel.setAttribute('data-transition','false')
+
     li.appendChild(confDel)
 
     const p = document.createElement('p')
@@ -124,9 +130,9 @@ const confirmDelete = id => {
     cancelBtn.textContent = 'Cancelar'
 
     confirmBtn.addEventListener('click', () => {
-        taskDeleteView(id) 
+        taskDeleteView(id)       
     })
-    cancelBtn.addEventListener('click', () => {
+    cancelBtn.addEventListener('click', () => {      
         confDel.remove()
     })
 
@@ -158,7 +164,7 @@ const newTaskView = id => {
     const dateDiv = document.createElement('div')
     const createdDate = document.createElement('p')
     const taskDate = document.createElement('p')
-
+    const taskError = document.createElement('p')
     // Modelos dos atributos
     const elementModels = [
         {
@@ -278,6 +284,19 @@ const newTaskView = id => {
                     value: `date-${task.id}`
                 }
             ]
+        },
+        {
+            element: taskError,
+            props: [
+                {
+                    key: "class",
+                    value: "task-error disabled"
+                },
+                {
+                    key: "id",
+                    value: `error-${id}`
+                }
+            ] 
         }
     ]
 
@@ -315,8 +334,14 @@ const newTaskView = id => {
         taskDoneView(task.id)
         showView(newLi)
     })
-    delButton.addEventListener("click", () => confirmDelete(task.id))
-    editButton.addEventListener("click", () => taskEditView(task.id))
+    delButton.addEventListener("click", () => {
+        confirmDelete(task.id)
+        showView(document.querySelector('.confirm'))
+    })
+    editButton.addEventListener("click", () => {
+        taskEditView(task.id)
+        taskError.classList.add('disabled')
+    })
     editInput.addEventListener("keyup", (e) => {
         if (e.key === "Escape") {
             taskEditView(task.id, false)
@@ -397,6 +422,7 @@ showInput.addEventListener('click', () => {
     showView(form)
     showView(legend, "true")
     newTaskInput.value = ''
+    errorMsg.classList.add('disabled')
 })
 newTaskInput.addEventListener('focus', () => {
     showView(legend, "false")
