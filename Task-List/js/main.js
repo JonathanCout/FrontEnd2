@@ -1,16 +1,20 @@
+// Elementos utilizados
 const list = document.querySelector('.list')
 const form = document.querySelector('.form')
 const showInput = document.querySelector('#show-input')
 const newTaskInput = document.querySelector("#new-task-input")
 const dateInput = document.querySelector("#new-task-date")
-const legend = document.querySelector(".fake")
+const legend = document.querySelector(".input-label")
 const mainCard = document.querySelector(".main-card")
 const errorMsg = document.querySelector('.error-msg')
+const generatorBtn = document.querySelector('#task-generator')
 let tasks = JSON.parse(localStorage.getItem("tarefas")) || []
 let validator = true
 
+// Captura o dia atual e coloca como mínimo no input de datas
 let today = new Date();
 dateInput.setAttribute('min',`${today.getFullYear()}-0${today.getMonth()+1}-${today.getDate()}`)
+
 // lógica
 
 const sendToStorage = () => {
@@ -33,8 +37,8 @@ const createRandomId = (length) => {
 
 const validateTasks = (desc,err) => {
     
-    if (desc.trim().length < 10) {
-        err.textContent = "A tarefa deve ter no mínimo 10 caracteres"
+    if (desc.trim().length <= 10) {
+        err.textContent = "A tarefa deve ter mais de 10 caracteres"
         err.classList.remove('disabled')
         validator = false
         return
@@ -81,19 +85,15 @@ const taskMakeHandler = (description, date) => {
 }
 
 const taskEditHandler = (description, id) => {
-
     validateTasks(description,document.querySelector(`#error-${id}`))
-
     if (!validator) {
         return
     }
-
     tasks.forEach(t => {
         if (t.id === id) {
             t.description = description.trim()
         }
     })
-
     sendToStorage()
 }
 
@@ -103,6 +103,7 @@ const taskDoneHandler = (id) => {
     sendToStorage()
 }
 
+// Método que cria a box de confirmação 
 const confirmDelete = id => {
     const li = document.querySelector(`#${id}`)
    
@@ -137,10 +138,12 @@ const confirmDelete = id => {
     })
 
 }
+
 const taskDeleteHandler = (id) => {  
     tasks = tasks.filter(t => t.id !== id)
     sendToStorage() 
 }
+
 // apresentação
 
 // Funcão para setar atributos
@@ -165,6 +168,7 @@ const newTaskView = id => {
     const createdDate = document.createElement('p')
     const taskDate = document.createElement('p')
     const taskError = document.createElement('p')
+
     // Modelos dos atributos
     const elementModels = [
         {
@@ -300,6 +304,7 @@ const newTaskView = id => {
         }
     ]
 
+// Dá os atributos definidos aos elementos e os conectam com a li criada
     for (let element of elementModels) {
         setValues(element.props, element.element)
         newLi.appendChild(element.element)
@@ -317,12 +322,12 @@ const newTaskView = id => {
     newLi.classList.add('task')
     newLi.id = task.id
     newLi.setAttribute('aria-expanded','false')
-    newLi.setAttribute('data-transition','false')
-    
+    newLi.setAttribute('data-transition','false')   
     list.appendChild(newLi)
 
     label.textContent = task.description
 
+    // Insere o valor da data limite, caso ela seja informada
     if (task.date) {
         taskDate.textContent = `Fazer até: ${task.date}`
     } else if(!task.date) {
@@ -352,6 +357,7 @@ const newTaskView = id => {
     })
 }
 
+// Método para completar uma tarefa, dando o valor 'done' para o objeto
 const taskDoneView = id => {
     taskDoneHandler(id)
     const task = document.querySelector(`#${id}`)
@@ -363,18 +369,21 @@ const taskDoneView = id => {
     }   
 }
 
+// Deleta a tarefa escolhida do DOM
 const taskDeleteView = id => {
     taskDeleteHandler(id)
     document.querySelector(`#${id}`).remove()
     lengthChecker()    
 }
 
+// Esconde o elemento 'ul' caso nao existem tarefas criadas
 const lengthChecker = () => {
     const lisCount = document.getElementsByTagName('li')
     if (lisCount.length == 0) {
         list.classList.add('disabled')
     }
 }
+// Apresentação das tarefas editadas
 const taskEditView = (id, submit = true) => {
     const taskEdit = document.querySelector(`#edit-${id}`)
     const labelEdit = document.querySelector(`#label-${id}`)
@@ -384,6 +393,7 @@ const taskEditView = (id, submit = true) => {
     taskEdit.classList.toggle("disabled")
     labelEdit.classList.toggle("disabled")
 
+// Só altera o valor no DOM se o valor inputado for aceito
     if (validator) {
         labelEdit.textContent = taskEdit.value
         document.querySelector(`#${id}`).classList.remove('done')
@@ -403,20 +413,40 @@ const createNewTask = () => {
     }
 }
 
+// Método para mudança de animação
 const showView = (element, fixed = null) => {
     const current = fixed || element.getAttribute("aria-expanded")
-
     const map = {
         "true": "false",
         "false": "true",
     }
-
     element.setAttribute("aria-expanded", map[current])
-
     setTimeout(() => {
         element.setAttribute("data-transition", map[current])
     }, 400)
 }
+
+// Pega uma tarefa aleatória na API
+const getRandomTask = async () => {
+    const getTask = await fetch('https://www.boredapi.com/api/activity') 
+    return getTask.json()
+}
+
+// Insere a tarefa encontrada no input
+const showRandomTask = (result) => {
+    newTaskInput.focus()
+    newTaskInput.value = result
+}
+
+// Evento que gera uma tarefa aleatória
+generatorBtn.addEventListener('click', () => {
+    getRandomTask().then(response => {
+        showRandomTask(response.activity)
+    })
+})
+
+
+
 
 showInput.addEventListener('click', () => {
     showView(form)

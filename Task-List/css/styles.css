@@ -119,19 +119,32 @@ body main .main-card form[aria-expanded="false"][data-transition="true"] {
   display: flex;
 }
 
-body main .main-card form div p:first-of-type {
+body main .main-card form div .description {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+body main .main-card form div .description p {
   -webkit-transform: translateY(1.6rem) translateX(0.5rem);
           transform: translateY(1.6rem) translateX(0.5rem);
 }
 
-body main .main-card form div p:first-of-type[aria-expanded="true"] {
+body main .main-card form div .description p[aria-expanded="true"] {
   -webkit-animation: goUp 400ms forwards;
           animation: goUp 400ms forwards;
 }
 
-body main .main-card form div p:first-of-type[aria-expanded="false"][data-transition="true"] {
+body main .main-card form div .description p[aria-expanded="false"][data-transition="true"] {
   -webkit-animation: goDown 400ms forwards;
           animation: goDown 400ms forwards;
+}
+
+body main .main-card form div .description button {
+  padding: 0 0.2rem;
 }
 
 body main .main-card form div .error-msg {
@@ -325,9 +338,10 @@ body main ul li .confirm {
   -ms-grid-row: 3;
   grid-row: 3;
   grid-column: 2/-1;
-  padding: .3rem .6rem;
+  padding: .3rem;
   font-weight: 700;
   border-radius: 10px;
+  background-color: var(--canc-bt-bg);
   -webkit-box-shadow: 0 0 0.2rem 0.05rem rgba(0, 0, 0, 0.582);
           box-shadow: 0 0 0.2rem 0.05rem rgba(0, 0, 0, 0.582);
 }
@@ -529,8 +543,8 @@ body main ul li[aria-expanded="false"][data-transition="true"] > label::after {
             transform: translateY(1.6rem) translateX(0.5rem);
   }
   to {
-    -webkit-transform: translateY(-0.3rem) translateX(0);
-            transform: translateY(-0.3rem) translateX(0);
+    -webkit-transform: translateY(0rem) translateX(0);
+            transform: translateY(0rem) translateX(0);
   }
 }
 
@@ -540,15 +554,15 @@ body main ul li[aria-expanded="false"][data-transition="true"] > label::after {
             transform: translateY(1.6rem) translateX(0.5rem);
   }
   to {
-    -webkit-transform: translateY(-0.3rem) translateX(0);
-            transform: translateY(-0.3rem) translateX(0);
+    -webkit-transform: translateY(0rem) translateX(0);
+            transform: translateY(0rem) translateX(0);
   }
 }
 
 @-webkit-keyframes goDown {
   from {
-    -webkit-transform: translateY(-0.3rem) translateX(0);
-            transform: translateY(-0.3rem) translateX(0);
+    -webkit-transform: translateY(0rem) translateX(0);
+            transform: translateY(0rem) translateX(0);
   }
   to {
     -webkit-transform: translateY(1.6rem) translateX(0.5rem);
@@ -558,8 +572,8 @@ body main ul li[aria-expanded="false"][data-transition="true"] > label::after {
 
 @keyframes goDown {
   from {
-    -webkit-transform: translateY(-0.3rem) translateX(0);
-            transform: translateY(-0.3rem) translateX(0);
+    -webkit-transform: translateY(0rem) translateX(0);
+            transform: translateY(0rem) translateX(0);
   }
   to {
     -webkit-transform: translateY(1.6rem) translateX(0.5rem);
