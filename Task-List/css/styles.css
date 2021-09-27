@@ -153,8 +153,10 @@ body main .main-card form div .description button {
 }
 
 body main .main-card form div .description button:focus {
-  -webkit-transition: background 400ms;
-  transition: background 400ms;
+  -webkit-transition-property: background;
+  transition-property: background;
+  -webkit-transition: 400ms ease-in-out;
+  transition: 400ms ease-in-out;
   background-image: url("https://cdn-icons-png.flaticon.com/512/248/248961.png");
 }
 
@@ -201,7 +203,7 @@ body main ul {
   display: -ms-grid;
   display: grid;
   border-radius: 9px;
-  max-height: 60vh;
+  max-height: 73vh;
   gap: 1rem;
   width: 100%;
   overflow: hidden;

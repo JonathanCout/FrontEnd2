@@ -100,7 +100,8 @@ body {
                 width: 11%;
                 
                 &:focus {
-                  transition: background 400ms ;
+                  transition-property: background;
+                  transition: 400ms ease-in-out;
                   background-image: url('https://cdn-icons-png.flaticon.com/512/248/248961.png');
                 }
               }
@@ -141,7 +142,7 @@ body {
         ul {
           display: grid;
           border-radius: 9px;    
-          max-height: 60vh;         
+          max-height: 73vh;         
           gap: 1rem;
           width: 100%;
           overflow: hidden;
