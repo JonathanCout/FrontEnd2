@@ -446,8 +446,6 @@ generatorBtn.addEventListener('click', () => {
 })
 
 
-
-
 showInput.addEventListener('click', () => {
     showView(form)
     showView(legend, "true")
