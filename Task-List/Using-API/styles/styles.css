@@ -1,0 +1,26 @@
+main {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[3];
+      grid-template-columns: repeat(3, 1fr);
+  gap: .5rem;
+}
+
+main .task-card {
+  padding: 1rem;
+  background-color: aqua;
+  border-radius: 15px;
+}
+
+main .task-card .task-title {
+  font-size: 1.5rem;
+}
+
+.disabled {
+  display: none;
+}
+
+.done {
+  text-decoration: line-through;
+}
+/*# sourceMappingURL=styles.css.map */

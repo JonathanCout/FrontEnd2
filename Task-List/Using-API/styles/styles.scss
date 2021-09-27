@@ -1,0 +1,23 @@
+main {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: .5rem;
+
+    .task-card {
+        padding: 1rem;
+        background-color: aqua;  
+        border-radius: 15px;  
+
+        .task-title {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+
+.disabled {
+    display: none;
+}
+.done {
+    text-decoration: line-through;
+}
