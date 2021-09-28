@@ -1,3 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Hind+Siliguri:wght@300&family=Scheherazade+New&display=swap");
+:root {
+  --body-bg: rgb(90,113,233);
+  --body-grad1:rgba(90,113,233,1);
+  --body-grad2:rgba(241,116,141,1);
+  --card-bg:rgb(255, 255, 255);
+  --form-btn-bg: rgb(192, 250, 250);
+  --plus-bt: rgb(255, 255, 255);
+}
+
+body {
+  min-height: 100vh;
+  padding: 1rem;
+  background: var(--body-bg);
+  background: linear-gradient(195deg, var(--body-grad1) 50%, var(--body-grad2) 50%);
+  background-repeat: no-repeat;
+  font-family: 'Poppins', sans-serif;
+}
+
+header h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+}
+
 main {
   display: -ms-grid;
   display: grid;
@@ -6,14 +32,42 @@ main {
   gap: .5rem;
 }
 
+main button {
+  cursor: pointer;
+  padding: .5rem 1rem;
+  border-radius: 10px;
+  width: 40%;
+  border: none;
+  font-size: 1.2rem;
+  background-color: white;
+  -webkit-box-shadow: 0.2rem 0.2rem 0 0 rgba(0, 0, 0, 0.13);
+          box-shadow: 0.2rem 0.2rem 0 0 rgba(0, 0, 0, 0.13);
+}
+
+main button:hover {
+  background-color: #b5ffff;
+}
+
 main .task-card {
-  padding: 1rem;
-  background-color: aqua;
-  border-radius: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: .5rem;
+  border-radius: 10px;
+  -webkit-box-shadow: 0.1rem 0.1rem 0 0 rgba(151, 150, 150, 0.692);
+          box-shadow: 0.1rem 0.1rem 0 0 rgba(151, 150, 150, 0.692);
+  background-color: white;
 }
 
 main .task-card .task-title {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .disabled {
@@ -21,6 +75,10 @@ main .task-card .task-title {
 }
 
 .done {
+  opacity: 0.4;
+}
+
+.done h2 {
   text-decoration: line-through;
 }
 /*# sourceMappingURL=styles.css.map */

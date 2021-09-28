@@ -11,7 +11,7 @@ const createElements = (element) => {
     newTask.classList.add('task-card')
     main.appendChild(newTask)
 
-    const taskTitle = document.createElement('h1')
+    const taskTitle = document.createElement('h2')
     taskTitle.id = `title-${element.id}`
     taskTitle.textContent = element.title
     taskTitle.classList.add('task-title')
@@ -19,16 +19,16 @@ const createElements = (element) => {
 
     const taskId = document.createElement('p')
     taskId.id = `id-${element.id}`
-    taskId.textContent = element.id
+    taskId.textContent = `id-${element.id}`
     taskId.classList.add('task-id')
     newTask.appendChild(taskId)
 
-    taskDoneHandler(element,taskTitle)
+    taskDoneHandler(element,newTask)
 }
 
-const taskDoneHandler = (element,title) => {
-    if (element.completed === true) {
-        title.classList.add('done')
+const taskDoneHandler = (result,element) => {
+    if (result.completed === true) {
+        element.classList.add('done')
     }
 }
 const viewTasks = (result) => {
