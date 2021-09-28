@@ -21,21 +21,21 @@ input[type='text'] {
   font-family: 'Poppins', sans-serif;
 }
 body {
+  min-height: 100vh;
   background: var(--body-bg);
   background: linear-gradient(195deg, var(--body-grad1) 50%, var(--body-grad2) 50%);
   background-repeat: no-repeat;
   font-family: 'Poppins', sans-serif;
 
   header {
-    background: var(--body-bg);
-    min-height: 10vh;
-    // width: 100%;
+    background: transparent;
     position: fixed;
     top: 0;
-    padding: 1rem;
-    margin-top: 1rem;
+    padding-left: 1rem;
+    margin-top: 2rem;
     border-radius: 10px;
     z-index: 10;
+    
 
     .main-card {
       display: flex;
@@ -47,6 +47,7 @@ body {
       max-width: 19rem;
       padding: 1rem;
       border-radius: 9px;
+      box-shadow: .15rem .15rem 0 0 rgba(0, 0, 0, 0.342);
       
       .card-header {
         display: flex;
@@ -151,8 +152,8 @@ body {
       flex-direction: column;
       align-items: center;
       gap: 2rem;
-      padding: 3rem 1rem;
-      margin-top: 5rem;
+      padding: 7rem 1rem;
+      // margin-top: 2rem;
           
         ul {
           display: grid;

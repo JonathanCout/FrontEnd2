@@ -26,6 +26,7 @@ input[type='text'] {
 }
 
 body {
+  min-height: 100vh;
   background: var(--body-bg);
   background: linear-gradient(195deg, var(--body-grad1) 50%, var(--body-grad2) 50%);
   background-repeat: no-repeat;
@@ -33,12 +34,11 @@ body {
 }
 
 body header {
-  background: var(--body-bg);
-  min-height: 10vh;
+  background: transparent;
   position: fixed;
   top: 0;
-  padding: 1rem;
-  margin-top: 1rem;
+  padding-left: 1rem;
+  margin-top: 2rem;
   border-radius: 10px;
   z-index: 10;
 }
@@ -63,6 +63,8 @@ body header .main-card {
   max-width: 19rem;
   padding: 1rem;
   border-radius: 9px;
+  -webkit-box-shadow: 0.15rem 0.15rem 0 0 rgba(0, 0, 0, 0.342);
+          box-shadow: 0.15rem 0.15rem 0 0 rgba(0, 0, 0, 0.342);
 }
 
 body header .main-card .card-header {
@@ -210,8 +212,7 @@ body main {
       -ms-flex-align: center;
           align-items: center;
   gap: 2rem;
-  padding: 3rem 1rem;
-  margin-top: 5rem;
+  padding: 7rem 1rem;
 }
 
 body main ul {
