@@ -15,7 +15,7 @@
   
 ## Documentação
 
-  O cabeçalho contém um botão (+) para mostrar mostrar o form de inserção de dados. Neste, existem um botão para escolher uma tarefa aleatória de uma API
+  O cabeçalho contém um botão (+) para mostrar mostrar o form de inserção de dados. Neste, existem um botão para escolher uma tarefa aleatória da API BoredAPI
   e dois inputs: o primeiro para definir a descrição da tarefa a ser criado
   e o segundo para definir uma data limite para a tarefa. 
   
