@@ -473,8 +473,7 @@ form.addEventListener('submit', (event) => {
     dateInput.value = ""
 })
 
-window.onload = () => {
-    
+window.onload = () => {   
     if (tasks && tasks.length > 0) {
         tasks.forEach(t => {
             newTaskView(t.id)
