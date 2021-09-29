@@ -30,4 +30,4 @@
 
 - [ToDo List](https://jonathancout.github.io/FrontEnd2/Task-List/)
 - [API para geração de tarefas aleatórias](https://www.boredapi.com)
-- [UsingAPI](https://jonathancout.github.io/FrontEnd2/Task-List/Using-API/)
+- [Task Generator](https://jonathancout.github.io/FrontEnd2/Task-List/Using-API/)
