@@ -13,7 +13,7 @@ let validator = true
 
 // Captura o dia atual e coloca como mínimo no input de datas
 let today = new Date();
-dateInput.setAttribute('min',`${today.getFullYear()}-0${today.getMonth()+1}-${today.getDate()}`)
+dateInput.setAttribute('min',`${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`)
 
 // lógica
 
